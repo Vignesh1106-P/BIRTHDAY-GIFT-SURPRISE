@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Memories Slideshow</title>
+
+<style>
+body{
+    margin:0;
+    min-height:100vh;
+    background:linear-gradient(#ffb6d9,#ffe6f2);
+    text-align:center;
+    font-family:Arial;
+    overflow-x:hidden;
+}
+
+h1{
+    color:#8b0055;
+    margin-top:25px;
+}
+
+.slide{
+    width:360px;
+    height:460px;
+    object-fit:cover;
+    border-radius:25px;
+    border:6px solid white;
+    box-shadow:0 0 30px hotpink;
+    animation:zoomFade 3s ease;
+}
+
+@keyframes zoomFade{
+    0%{opacity:0; transform:scale(0.85);}
+    30%{opacity:1; transform:scale(1);}
+    100%{opacity:1; transform:scale(1.05);}
+}
+
+.final-msg{
+    display:none;
+    font-size:25px;
+    color:#8b0055;
+    font-weight:bold;
+    margin-top:30px;
+}
+
+.back-btn{
+    margin-top:20px;
+    padding:14px 30px;
+    font-size:18px;
+    background:hotpink;
+    color:white;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>📸 Our Beautiful Memories 📸</h1>
+
+<img id="slide" class="slide" src="{% static 'images/sister1.jpeg' %}">
+
+<div id="finalMsg" class="final-msg">
+    ❤️ Happy Birthday Thangachi ❤️ <br><br>
+    Thank you for all the beautiful memories. <br>
+    You will always be my little sister. <br><br>
+    Love You Forever 💖
+</div>
+
+<br>
+
+<a href="/">
+    <button class="back-btn">🏠 Back to Home</button>
+</a>
+
+<script>
+let photos = [
+    "{% static 'images/sister1.jpeg' %}",
+    "{% static 'images/sister2.jpeg' %}",
+    "{% static 'images/sister3.jpeg' %}",
+    "{% static 'images/sister4.jpeg' %}",
+    "{% static 'images/sister5.jpeg' %}",
+    "{% static 'images/sister6.jpeg' %}"
+];
+
+let index = 0;
+let slide = document.getElementById("slide");
+
+setInterval(function(){
+    index++;
+
+    if(index < photos.length){
+        slide.src = photos[index];
+        slide.style.animation = "none";
+        void slide.offsetWidth;
+        slide.style.animation = "zoomFade 3s ease";
+    } else {
+        slide.style.display = "none";
+        document.getElementById("finalMsg").style.display = "block";
+    }
+}, 3000);
+</script>
+
+</body>
+</html>

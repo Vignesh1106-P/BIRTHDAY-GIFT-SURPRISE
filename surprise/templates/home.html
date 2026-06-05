@@ -1,0 +1,500 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Gift</title>
+
+    <style>
+        body {
+            margin: 0;
+            text-align: center;
+            background: linear-gradient(#ffb6d9, #ffe6f2);
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin-top: 15px;
+            font-size: 34px;
+        }
+
+        .cake {
+            width: 210px;
+            border-radius: 20px;
+        }
+
+        .gift {
+            font-size: 75px;
+            cursor: pointer;
+            animation: shake 1s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(8deg); }
+            50% { transform: rotate(-8deg); }
+            75% { transform: rotate(8deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .hidden-photo {
+    display: none;
+    width: 350px;
+    margin-top: 15px;
+    border-radius: 20px;
+    border: 5px solid white;
+    box-shadow: 0 0 20px #ff1493;
+    }  
+
+        .type-message {
+            font-size: 23px;
+            font-weight: bold;
+            color: #8b0055;
+            margin: 15px;
+            min-height: 60px;
+        }
+
+.balloon{
+    width:70px;
+    position:fixed;
+    bottom:-120px;
+    animation:fly 12s linear infinite;
+}
+
+.b1 { left: 5%; animation-delay: 0s; }
+.b2 { left: 25%; animation-delay: 2s; }
+.b3 { left: 50%; animation-delay: 4s; }
+.b4 { left: 75%; animation-delay: 1s; }
+.b5 { left: 90%; animation-delay: 3s; }
+
+@keyframes fly {
+
+    0%{
+        transform: translate(0,0) rotate(-5deg);
+    }
+
+    25%{
+        transform: translate(30px,-250px) rotate(5deg);
+    }
+
+    50%{
+        transform: translate(-30px,-500px) rotate(-5deg);
+    }
+
+    75%{
+        transform: translate(40px,-750px) rotate(5deg);
+    }
+
+    100%{
+        transform: translate(-20px,-110vh) rotate(-5deg);
+    }
+}
+
+.heart{
+    position:fixed;
+    top:-50px;
+    font-size:30px;
+    animation:fall 8s linear infinite;
+}
+
+.h1{left:10%;}
+.h2{left:35%;animation-delay:2s;}
+.h3{left:60%;animation-delay:4s;}
+.h4{left:85%;animation-delay:1s;}
+
+@keyframes fall{
+    0%{transform:translateY(-50px);}
+    100%{transform:translateY(110vh);}
+}
+
+        .firework {
+            position: fixed;
+            font-size: 35px;
+            display: none;
+            animation: boom 1.5s ease-out infinite;
+        }
+
+        @keyframes boom {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        .btn-container{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.fancy-btn{
+    background:linear-gradient(45deg,#ff1493,#ff69b4);
+    color:white;
+    border:none;
+    padding:18px 35px;
+    font-size:22px;
+    font-weight:bold;
+    border-radius:50px;
+    cursor:pointer;
+    box-shadow:0 0 20px rgba(255,20,147,0.5);
+    transition:0.3s;
+}
+
+.fancy-btn:hover{
+    transform:translateY(-5px) scale(1.05);
+    box-shadow:0 0 30px hotpink;
+}
+
+.gift.opened{
+    animation: openBox 1s forwards;
+}
+
+@keyframes openBox{
+    0%{transform:scale(1) rotate(0);}
+    30%{transform:scale(1.2) rotate(10deg);}
+    60%{transform:scale(1.3) rotate(-10deg);}
+    100%{transform:scale(1.5) rotate(0);}
+}
+
+.pop-item{
+    display:none;
+    font-size:50px;
+    margin:10px;
+    animation:popUp 1s ease forwards;
+}
+
+@keyframes popUp{
+    0%{opacity:0; transform:translateY(50px) scale(0);}
+    100%{opacity:1; transform:translateY(0) scale(1);}
+}
+
+.gift-items{
+    margin-top:20px;
+}
+
+.logout-btn{
+    position:fixed;
+    top:70px;
+    right:15px;
+    background:#8b0055;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:20px;
+    cursor:pointer;
+    z-index:999;
+}
+
+.music-btn{
+    position:fixed;
+    top:15px;
+    left:15px;
+    background:#8b0055;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:20px;
+    cursor:pointer;
+    z-index:999;
+}
+
+.theme-btn{
+    position:fixed;
+    top:15px;
+    right:15px;
+    padding:12px 15px;
+    border:none;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:22px;
+    z-index:999;
+    background:white;
+    box-shadow:0 0 15px hotpink;
+}
+
+.confetti{
+    position:fixed;
+    top:-20px;
+    font-size:25px;
+    animation:confettiFall 5s linear infinite;
+}
+
+@keyframes confettiFall{
+    0%{
+        transform:translateY(-20px) rotate(0deg);
+    }
+    100%{
+        transform:translateY(110vh) rotate(720deg);
+    }
+}
+
+@media (max-width: 600px){
+
+    h1{
+        font-size:26px;
+        margin-top:60px;
+    }
+
+    h2{
+        font-size:20px;
+    }
+
+    p{
+        font-size:16px;
+        padding:0 15px;
+    }
+
+    .cake{
+        width:170px;
+    }
+
+    .gift{
+        font-size:60px;
+    }
+
+    .hidden-photo{
+        width:85%;
+    }
+
+    .btn-container{
+        flex-direction:column;
+        gap:15px;
+        align-items:center;
+    }
+
+    .fancy-btn{
+        width:280px;
+        font-size:18px;
+        padding:14px 20px;
+    }
+
+    .balloon{
+        width:50px;
+    }
+
+    .type-message{
+        font-size:18px;
+        padding:0 15px;
+    }
+
+    .theme-btn{
+        top:10px;
+        right:10px;
+        font-size:18px;
+        padding:9px 11px;
+    }
+
+    .logout-btn{
+        top:55px;
+        right:10px;
+        padding:8px 14px;
+        font-size:14px;
+    }
+
+    .music-btn{
+        top:10px;
+        left:10px;
+        padding:8px 14px;
+        font-size:14px;
+    }
+}
+
+</style>
+</head>
+
+<body id="body">
+
+    <a href="/logout/">
+        <button class="logout-btn">Logout</button>
+    </a>
+    <button class="theme-btn" onclick="changeTheme()">🌙</button>
+        
+    <audio id="birthdayMusic" autoplay loop>
+        <source src="{% static 'music/birthday_song.mp3' %}" type="audio/mpeg">
+    </audio>
+
+    <div class="heart h1">💙</div>
+    <div class="heart h2">💙</div>
+    <div class="heart h3">💙</div>
+    <div class="heart h4">💙</div>
+
+    <img class="balloon b1" src="{% static 'images/balloon.png' %}">
+    <img class="balloon b2" src="{% static 'images/balloon.png' %}">
+    <img class="balloon b3" src="{% static 'images/balloon.png' %}">
+    <img class="balloon b4" src="{% static 'images/balloon.png' %}">
+    <img class="balloon b5" src="{% static 'images/balloon.png' %}">
+
+    <h1>🎂 Happy Birthday Thangachi 🎂</h1>
+
+    <img class="cake" src="{% static 'images/sister_cake.jpg' %}">
+
+    <h2>💖 My Dear Sister 💖</h2>
+
+    <p>May your life be filled with happiness, success and smiles 😊</p>
+
+    <h2>Click the Gift Box 👇</h2>
+
+    <div class="gift" onclick="openGift()">🎁</div>
+
+    <div class="gift-items">
+        <span class="pop-item">🌹</span>
+        <span class="pop-item">🧸</span>
+        <span class="pop-item">🎂</span>
+        <span class="pop-item">💖</span>
+    </div>
+
+    <br><br>
+
+<div class="btn-container">
+
+    <a href="/surprise/">
+        <button class="fancy-btn">💌 Secret Surprise</button>
+    </a>
+
+    <a href="/slideshow/">
+        <button class="fancy-btn">📸 Beautiful Memories</button>
+    </a>
+
+    <a href="/game/">
+        <button class="fancy-btn">🎮 Birthday Game</button>
+    </a>
+
+    <a href="/letter/">
+        <button class="fancy-btn">💌 Secret Letter</button>
+    </a>
+
+    <button class="music-btn" onclick="toggleMusic()">🎵 Music</button>
+    </div>
+
+    <h3 style="color:#8b0055;">
+        💖 Best Brother & Sister Forever 💖
+    </h3>
+
+    <img id="revealPhoto" class="hidden-photo" src="{% static 'images/brother_sister.jpg' %}">
+
+    <div id="typeText" class="type-message"></div>
+
+    <div class="firework" style="top:15%; left:15%;">🎆</div>
+    <div class="firework" style="top:20%; left:75%;">🎇</div>
+    <div class="firework" style="top:55%; left:25%;">🎆</div>
+    <div class="firework" style="top:60%; left:80%;">🎇</div>
+
+    <div id="confettiBox"></div>
+
+    <script>
+        let i = 0;
+        let message = "Happy Birthday Thangachi ❤️ Nothing is more beautiful than the bond between Brother and Sister. You will always be my little sister and my best friend. Stay happy and keep smiling always 😊🎂";
+
+        function openGift() {
+            if (i > 0) return;
+
+            document.getElementById("birthdayMusic").play();
+
+            let gift = document.querySelector(".gift");
+            gift.classList.add("opened");
+
+            setTimeout(function(){
+                gift.innerHTML = "🎉";
+            }, 700);
+
+            let items = document.querySelectorAll(".pop-item");
+
+            items.forEach(function(item, index){
+                setTimeout(function(){
+                    item.style.display = "inline-block";
+                }, index * 400);
+            });
+
+            document.getElementById("revealPhoto").style.display = "inline-block";
+
+            let fireworks = document.querySelectorAll(".firework");
+            fireworks.forEach(function(firework) {
+                firework.style.display = "block";
+            });
+
+            createConfetti();
+
+            typeWriter();
+        }
+
+        function typeWriter() {
+            if (i < message.length) {
+                document.getElementById("typeText").innerHTML += message.charAt(i);
+                i++;
+                setTimeout(typeWriter, 60);
+            }
+        }
+
+        function toggleMusic(){
+    let music = document.getElementById("birthdayMusic");
+
+    if(music.paused){
+        music.play();
+        document.querySelector(".music-btn").innerHTML = "🔊 Music";
+    }else{
+        music.pause();
+        document.querySelector(".music-btn").innerHTML = "🔇 Muted";
+    }
+}
+
+function createConfetti(){
+
+    let emojis = ["🎉","🎊","✨","💖","🌸"];
+
+    for(let i=0;i<40;i++){
+
+        let confetti = document.createElement("div");
+
+        confetti.className = "confetti";
+
+        confetti.innerHTML =
+        emojis[Math.floor(Math.random()*emojis.length)];
+
+        confetti.style.left =
+        Math.random()*100 + "vw";
+
+        confetti.style.animationDelay =
+        Math.random()*3 + "s";
+
+        document.getElementById("confettiBox")
+        .appendChild(confetti);
+    }
+}
+
+/* 👇 idha inga paste pannu */
+
+let dark = false;
+
+function changeTheme(){
+
+    let body = document.getElementById("body");
+    let btn = document.querySelector(".theme-btn");
+
+    if(dark == false){
+        body.style.background = "linear-gradient(#111,#333)";
+        btn.innerHTML = "☀️";
+        dark = true;
+    }else{
+        body.style.background = "linear-gradient(#ffb6d9,#ffe6f2)";
+        btn.innerHTML = "🌙";
+        dark = false;
+    }
+}
+
+</script>
+
+<script>
+window.onload = function(){
+    let music = document.getElementById("birthdayMusic");
+
+    music.play().catch(function(error){
+        console.log("Autoplay blocked");
+    });
+}
+</script>
+
+</body>
+</html>

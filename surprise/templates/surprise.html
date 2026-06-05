@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Secret Birthday Surprise</title>
+
+<style>
+body{
+    margin:0;
+    text-align:center;
+    font-family:Arial;
+    background:linear-gradient(#ffb6d9,#ffe6f2);
+    overflow-x:hidden;
+}
+
+.lock{
+    margin-top:40px;
+    color:#8b0055;
+}
+
+.gift{
+    font-size:100px;
+    cursor:pointer;
+    animation:shake 1s infinite;
+}
+
+@keyframes shake{
+    0%{transform:rotate(0deg);}
+    25%{transform:rotate(8deg);}
+    50%{transform:rotate(-8deg);}
+    75%{transform:rotate(8deg);}
+    100%{transform:rotate(0deg);}
+}
+
+.hidden{
+    display:none;
+}
+
+.photo{
+    width:360px;
+    border-radius:25px;
+    border:5px solid white;
+    box-shadow:0 0 25px hotpink;
+}
+
+.type-message{
+    font-size:24px;
+    font-weight:bold;
+    color:#8b0055;
+    margin:20px;
+}
+
+.firework{
+    position:fixed;
+    font-size:40px;
+    display:none;
+    animation:boom 1.5s infinite;
+}
+
+@keyframes boom{
+    0%{transform:scale(0);opacity:1;}
+    100%{transform:scale(2.5);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="birthdayMusic">
+    <source src="{% static 'music/birthday_song.mp3' %}" type="audio/mpeg">
+</audio>
+
+<h1 class="lock">🔒 Secret Birthday Surprise 🔒</h1>
+
+<h2>Click To Unlock 👇</h2>
+
+<div class="gift" onclick="unlockSurprise()">🎁</div>
+
+<div id="surpriseBox" class="hidden">
+
+    <h1>🎆 Surprise Unlocked 🎆</h1>
+
+    <img class="photo" src="{% static 'images/brother_sister.jpg' %}">
+
+    <h2>❤️ Best Brother & Sister Forever ❤️</h2>
+
+    <div id="typeText" class="type-message"></div>
+
+</div>
+
+<div class="firework" style="top:15%;left:15%;">🎆</div>
+<div class="firework" style="top:20%;left:75%;">🎇</div>
+<div class="firework" style="top:55%;left:20%;">🎆</div>
+<div class="firework" style="top:60%;left:80%;">🎇</div>
+
+<script>
+let i = 0;
+
+let message =
+"Happy Birthday Thangachi ❤️ No matter where life takes us, you will always be my little sister. Thank you for all the memories, laughs and happiness. I will always be there for you. Love You ❤️";
+
+function unlockSurprise(){
+    document.getElementById("birthdayMusic").play();
+
+    document.querySelector(".gift").style.display = "none";
+    document.querySelector(".lock").innerHTML = "🎉 Surprise Opened 🎉";
+
+    document.getElementById("surpriseBox").style.display = "block";
+
+    let fireworks = document.querySelectorAll(".firework");
+    fireworks.forEach(function(firework){
+        firework.style.display = "block";
+    });
+
+    typeWriter();
+}
+
+function typeWriter(){
+    if(i < message.length){
+        document.getElementById("typeText").innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, 60);
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Birthday Countdown</title>
+
+<style>
+body{
+    margin:0;
+    min-height:100vh;
+    background:linear-gradient(#ffb6d9,#ffe6f2);
+    text-align:center;
+    font-family:Arial;
+}
+
+h1{
+    color:#8b0055;
+    margin-top:60px;
+}
+
+.timer-box{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:40px;
+}
+
+.box{
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    min-width:120px;
+    box-shadow:0 0 25px hotpink;
+}
+
+.num{
+    font-size:40px;
+    font-weight:bold;
+    color:#ff1493;
+}
+
+.label{
+    font-size:18px;
+    color:#8b0055;
+}
+
+#birthdayMsg{
+    display:none;
+    font-size:35px;
+    color:#8b0055;
+    margin-top:40px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎂 Birthday Countdown 🎂</h1>
+
+<h2>Waiting for 28 June 🎁</h2>
+
+<div class="timer-box">
+    <div class="box">
+        <div id="days" class="num">0</div>
+        <div class="label">Days</div>
+    </div>
+
+    <div class="box">
+        <div id="hours" class="num">0</div>
+        <div class="label">Hours</div>
+    </div>
+
+    <div class="box">
+        <div id="minutes" class="num">0</div>
+        <div class="label">Minutes</div>
+    </div>
+
+    <div class="box">
+        <div id="seconds" class="num">0</div>
+        <div class="label">Seconds</div>
+    </div>
+</div>
+
+<div id="birthdayMsg">
+    🎉 Happy Birthday Thangachi ❤️ 🎉
+</div>
+
+<script>
+let birthdayDate = new Date("June 28, 2026 00:00:00").getTime();
+
+let timer = setInterval(function(){
+
+    let now = new Date().getTime();
+    let distance = birthdayDate - now;
+
+    if(distance <= 0){
+        clearInterval(timer);
+        document.querySelector(".timer-box").style.display = "none";
+        document.getElementById("birthdayMsg").style.display = "block";
+        return;
+    }
+
+    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerHTML = days;
+    document.getElementById("hours").innerHTML = hours;
+    document.getElementById("minutes").innerHTML = minutes;
+    document.getElementById("seconds").innerHTML = seconds;
+
+},1000);
+</script>
+
+</body>
+</html>

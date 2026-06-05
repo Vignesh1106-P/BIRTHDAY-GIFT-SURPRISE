@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Secret Letter</title>
+
+<style>
+body{
+    margin:0;
+    min-height:100vh;
+    background:linear-gradient(#ffb6d9,#ffe6f2);
+    text-align:center;
+    font-family:Arial;
+    overflow-x:hidden;
+}
+
+h1{
+    color:#8b0055;
+    margin-top:40px;
+}
+
+.envelope{
+    font-size:120px;
+    cursor:pointer;
+    margin-top:80px;
+    animation:bounce 1.5s infinite;
+}
+
+@keyframes bounce{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-15px);}
+    100%{transform:translateY(0);}
+}
+
+.letter-box{
+    display:none;
+    width:70%;
+    max-width:700px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 0 30px hotpink;
+    font-size:22px;
+    color:#8b0055;
+    font-weight:bold;
+    line-height:1.8;
+    text-align:left;
+    white-space:pre-wrap;
+}
+
+.back-btn{
+    padding:14px 30px;
+    font-size:18px;
+    background:hotpink;
+    color:white;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>💌 Secret Letter For You 💌</h1>
+
+<h2>Click the envelope 👇</h2>
+
+<div class="envelope" onclick="openLetter()">✉️</div>
+
+<div id="letterBox" class="letter-box">
+    <div id="letterText"></div>
+</div>
+
+<a href="/">
+    <button class="back-btn">🏠 Back to Home</button>
+</a>
+
+<script>
+let i = 0;
+
+let letter = `🎂 En Uyir Thangachiku... HBD d Chellam! 💖
+
+Dei Paapa,
+
+Innaiku un birthday... Unaku advance-a enoda manasarntha Happy Birthday d chellam! Intha special day-la epavum pola gethu-a oru wish mattum pannitu poga enaku manasu illa. Unkita nerla solla mudiyaatha, en manasoda aazhathula irunthu eluthura vaarthaigal ithu.
+
+Palasaiyellam ninaichu paakuren... Namma vera vera veetula poranthurukalam, aana kadavul enaku kooda porantha thangachi illaye-nu varuthapada vidala. Pona jenmathula namma kandipa kooda poranthurupom, athanala thaan intha jenmathula kadavul unna en kitta anupirukaaru. Ratham kalakkaatiyum, nee enaku en petha thangachiya thaan da epavume.
+
+En life-la yarume illanu ninaicha pala nimishangalla, enna getha nimira vechathu unoda antha sirippum, "Naan iruken na" nu nee kudutha dhairyamum thaan. Ammakku apram enna appadiye ethukuta ore jeevan nee thaan da. Sila neram naan un mela kovapatturukalam, aana athu un mela naan vechirukura paithiyakarathanamana urimaiyala thaan.
+
+💖 En Bday Promise Unaku:
+
+Velila naan evvalavo gettha suthalam, aana un kannula oru thuli kanneer vantha kooda intha annanoda manasu mothama odanjirum. Unaku oru kashtamna intha ulagathula yaraiyum ethirkira thunivu enaku varum. Nee engirunthalum, un life-la enna pannanum ninaichalum, intha annan un pinnala oru paarai mathiri thunaiyya nipppen.
+
+Intha varusham mattum illa, innum ethana jenmam eduthalum enaku thangachiya nee thaan da venum. Unna paathukura poruppu enaku eppavume iruku.
+
+Innaiku mathiri epavume intha sirippoda, life-la nee ninaicha ella heights-kum poga enoda vazhthukal da.
+
+🎂 Once again, Happy Birthday d Chellam! 🥳
+
+Ipadiku,
+
+❤️ Ratham kalakkaatiyum, unnai uyiraga paarkum un Anbu Annan ❤️`;
+
+function openLetter(){
+    document.querySelector(".envelope").innerHTML = "📜";
+    document.querySelector(".envelope").style.animation = "none";
+    document.getElementById("letterBox").style.display = "block";
+    typeLetter();
+}
+
+function typeLetter(){
+    if(i < letter.length){
+        document.getElementById("letterText").innerHTML +=
+        letter.charAt(i) === "\n" ? "<br>" : letter.charAt(i);
+        i++;
+        setTimeout(typeLetter, 45);
+    }
+}
+</script>
+
+</body>
+</html>
