@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-sgitfy*=)i=u*+ek+!h3*mg*(1#2k)=faiz*=4t3dofp09y)*+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'birthday-gift-website-snfm.onrender.com',
+    '127.0.0.1',
+    'localhost',
+]
 
 
 # Application definition
