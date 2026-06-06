@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,6 +74,10 @@ h1{
     <div id="letterText"></div>
 </div>
 
+<audio id="letterMusic" loop>
+    <source src="{% static 'music/letter_song.mp3' %}" type="audio/mpeg">
+</audio>
+
 <a href="/">
     <button class="back-btn">🏠 Back to Home</button>
 </a>
@@ -85,7 +91,7 @@ Dei Paapa,
 
 Innaiku un birthday... Unaku advance-a enoda manasarntha Happy Birthday d chellam! Intha special day-la epavum pola gethu-a oru wish mattum pannitu poga enaku manasu illa. Unkita nerla solla mudiyaatha, en manasoda aazhathula irunthu eluthura vaarthaigal ithu.
 
-Palasaiyellam ninaichu paakuren... Namma vera vera veetula poranthurukalam, aana kadavul enaku kooda porantha thangachi illaye-nu varuthapada vidala. Pona jenmathula namma kandipa kooda poranthurupom, athanala thaan intha jenmathula kadavul unna en kitta anupirukaaru. Ratham kalakkaatiyum, nee enaku en petha thangachiya thaan da epavume.
+Palasaiyellam ninaichu paakuren... Namma vera vera veetula poranthurukalam. Pona jenmathula namma kandipa kooda poranthurupom, athanala thaan intha jenmathula kadavul unna en kitta anupirukaaru. Ratham kalakkaatiyum, nee enaku en petha thangachiya thaan da epavume.
 
 En life-la yarume illanu ninaicha pala nimishangalla, enna getha nimira vechathu unoda antha sirippum, "Naan iruken na" nu nee kudutha dhairyamum thaan. Ammakku apram enna appadiye ethukuta ore jeevan nee thaan da. Sila neram naan un mela kovapatturukalam, aana athu un mela naan vechirukura paithiyakarathanamana urimaiyala thaan.
 
@@ -104,6 +110,7 @@ Ipadiku,
 ❤️ Ratham kalakkaatiyum, unnai uyiraga paarkum un Anbu Annan ❤️`;
 
 function openLetter(){
+    document.getElementById("letterMusic").play();
     document.querySelector(".envelope").innerHTML = "📜";
     document.querySelector(".envelope").style.animation = "none";
     document.getElementById("letterBox").style.display = "block";

@@ -80,6 +80,43 @@ button{
     0%{transform:translateY(-50px);}
     100%{transform:translateY(110vh);}
 }
+
+.password-box{
+    position:relative;
+    width:100%;
+}
+
+.password-box input{
+    width:85%;
+    padding-right:45px;
+}
+
+.eye{
+    position:absolute;
+    right:25px;
+    top:13px;
+    cursor:pointer;
+    font-size:20px;
+}
+
+.typing-heart{
+    height:25px;
+    color:#ff1493;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+#emojiMask{
+    margin-top:10px;
+    font-size:25px;
+}
+
+#strengthText{
+    margin-top:10px;
+    font-size:18px;
+    font-weight:bold;
+}
+
 </style>
 </head>
 
@@ -104,7 +141,19 @@ text-shadow:2px 2px 10px hotpink;">
     <form method="POST">
         {% csrf_token %}
 
-        <input type="password" name="password" placeholder="Secret Password">
+        <div class="password-box">
+    <input id="passwordInput"
+       type="password"
+       name="password"
+       placeholder="Secret Password"
+       oninput="showEmoji()">
+    <span onclick="togglePassword()" class="eye">👁️</span>
+</div>
+
+<div id="typingHeart" class="typing-heart"></div>
+
+<div id="emojiMask"></div>
+<div id="strengthText"></div>
 
         <br><br>
 
@@ -142,6 +191,71 @@ setInterval(function(){
     seconds + "s";
 
 },1000);
+
+</script>
+
+<script>
+function togglePassword(){
+    let input = document.getElementById("passwordInput");
+    let eye = document.querySelector(".eye");
+
+    if(input.type === "password"){
+        input.type = "text";
+        eye.innerHTML = "🙈";
+    }else{
+        input.type = "password";
+        eye.innerHTML = "👁️";
+    }
+}
+
+function showTypingHeart(){
+    document.getElementById("typingHeart").innerHTML = "💖 Secret unlocking...";
+}
+
+
+function showEmoji(){
+
+    let pass =
+    document.getElementById("passwordInput").value;
+
+    let emoji = "";
+
+    let emojis = [
+"🎂",
+"🎁",
+"🎈",
+"🎉",
+"🍫",
+"🧸",
+"🌹",
+"👑"
+];
+
+    for(let i=0;i<pass.length;i++){
+
+        emoji += emojis[
+            Math.floor(Math.random()*emojis.length)
+        ];
+    }
+
+    document.getElementById("emojiMask").innerHTML = emoji;
+
+    let strength =
+    document.getElementById("strengthText");
+
+    if(pass.length < 4){
+        strength.innerHTML = "💔 Weak";
+        strength.style.color = "red";
+    }
+    else if(pass.length < 8){
+        strength.innerHTML = "💛 Medium";
+        strength.style.color = "orange";
+    }
+    else{
+        strength.innerHTML = "💙 Strong";
+        strength.style.color = "blue";
+    }
+}   
 
 </script>
 
