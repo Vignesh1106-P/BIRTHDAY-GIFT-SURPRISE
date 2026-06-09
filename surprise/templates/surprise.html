@@ -8,59 +8,81 @@
 <style>
 body{
     margin:0;
-    text-align:center;
-    font-family:Arial;
+    min-height:100vh;
     background:linear-gradient(#ffb6d9,#ffe6f2);
-    overflow-x:hidden;
+    font-family:Arial;
+    text-align:center;
+    overflow:hidden;
 }
 
-.lock{
-    margin-top:40px;
-    color:#8b0055;
-}
-
-.gift{
-    font-size:100px;
-    cursor:pointer;
-    animation:shake 1s infinite;
-}
-
-@keyframes shake{
-    0%{transform:rotate(0deg);}
-    25%{transform:rotate(8deg);}
-    50%{transform:rotate(-8deg);}
-    75%{transform:rotate(8deg);}
-    100%{transform:rotate(0deg);}
-}
-
-.hidden{
+.slide{
     display:none;
+    height:100vh;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    padding:20px;
+    box-sizing:border-box;
+    animation:fade 1s;
 }
 
-.photo{
-    width:360px;
-    border-radius:25px;
-    border:5px solid white;
-    box-shadow:0 0 25px hotpink;
+.slide.active{
+    display:flex;
 }
 
-.type-message{
-    font-size:24px;
-    font-weight:bold;
+@keyframes fade{
+    from{opacity:0; transform:scale(0.9);}
+    to{opacity:1; transform:scale(1);}
+}
+
+h1,h2{
     color:#8b0055;
+}
+
+.big{
+    font-size:45px;
+    font-weight:bold;
+    text-shadow:0 0 15px hotpink;
+}
+
+.emoji{
+    font-size:110px;
     margin:20px;
+}
+
+.next-btn{
+    margin-top:25px;
+    padding:15px 35px;
+    font-size:20px;
+    background:hotpink;
+    color:white;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    box-shadow:0 0 20px hotpink;
+}
+
+.cake{
+    font-size:120px;
+    cursor:pointer;
 }
 
 .firework{
     position:fixed;
     font-size:40px;
-    display:none;
     animation:boom 1.5s infinite;
 }
 
 @keyframes boom{
     0%{transform:scale(0);opacity:1;}
     100%{transform:scale(2.5);opacity:0;}
+}
+
+@media(max-width:600px){
+    .big{font-size:30px;}
+    .emoji{font-size:85px;}
+    h1{font-size:26px;}
+    h2{font-size:20px;}
 }
 </style>
 </head>
@@ -71,57 +93,94 @@ body{
     <source src="{% static 'music/birthday_song.mp3' %}" type="audio/mpeg">
 </audio>
 
-<h1 class="lock">🔒 Secret Birthday Surprise 🔒</h1>
-
-<h2>Click To Unlock 👇</h2>
-
-<div class="gift" onclick="unlockSurprise()">🎁</div>
-
-<div id="surpriseBox" class="hidden">
-
-    <h1>🎆 Surprise Unlocked 🎆</h1>
-
-    <img class="photo" src="{% static 'images/brother_sister.jpg' %}">
-
-    <h2>❤️ Best Brother & Sister Forever ❤️</h2>
-
-    <div id="typeText" class="type-message"></div>
-
-</div>
-
 <div class="firework" style="top:15%;left:15%;">🎆</div>
 <div class="firework" style="top:20%;left:75%;">🎇</div>
-<div class="firework" style="top:55%;left:20%;">🎆</div>
-<div class="firework" style="top:60%;left:80%;">🎇</div>
+<div class="firework" style="top:60%;left:20%;">🎆</div>
+<div class="firework" style="top:65%;left:80%;">🎇</div>
+
+<div class="slide active">
+    <h1 class="big">🔒 Secret Birthday Surprise 🔒</h1>
+    <h2>❤️ A Special Gift Made Just For You ❤️</h2>
+    <div class="emoji">🎁</div>
+    <button class="next-btn" onclick="startSurprise()">Unlock Surprise</button>
+</div>
+
+<div class="slide">
+    <div class="emoji">🌹</div>
+    <h1>A Rose Filled With Love</h1>
+    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+</div>
+
+<div class="slide">
+    <div class="emoji">🧸</div>
+    <h1>A Teddy Full Of Hugs</h1>
+    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+</div>
+
+<div class="slide">
+    <div class="emoji">🍫</div>
+    <h1>Sweet Moments Like Chocolate</h1>
+    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+</div>
+
+<div class="slide">
+    <div class="emoji">👑</div>
+    <h1>My Forever Favourite Sister</h1>
+    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+</div>
+
+<div class="slide">
+    <h1>💖 Why You Are Special 💖</h1>
+    <h2>❤️ You always support me</h2>
+    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+</div>
+
+<div class="slide">
+    <h1>😊 Your smile makes everyone happy</h1>
+    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+</div>
+
+<div class="slide">
+    <h1>💖 You are my favourite sister</h1>
+    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+</div>
+
+<div class="slide">
+    <h1>🌟 You are very special to me</h1>
+    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+</div>
+
+<div class="slide">
+    <h1>🎂 Cut Your Birthday Cake 🎂</h1>
+    <div id="cake" class="cake" onclick="cutCake()">🎂</div>
+    <h2 id="cakeMsg"></h2>
+    <a href="/">
+        <button class="next-btn">🏠 Back To Home</button>
+    </a>
+</div>
 
 <script>
-let i = 0;
+let currentSlide = 0;
+let slides = document.querySelectorAll(".slide");
 
-let message =
-"Happy Birthday Thangachi ❤️ No matter where life takes us, you will always be my little sister. Thank you for all the memories, laughs and happiness. I will always be there for you. Love You ❤️";
-
-function unlockSurprise(){
+function startSurprise(){
     document.getElementById("birthdayMusic").play();
-
-    document.querySelector(".gift").style.display = "none";
-    document.querySelector(".lock").innerHTML = "🎉 Surprise Opened 🎉";
-
-    document.getElementById("surpriseBox").style.display = "block";
-
-    let fireworks = document.querySelectorAll(".firework");
-    fireworks.forEach(function(firework){
-        firework.style.display = "block";
-    });
-
-    typeWriter();
+    nextSlide();
 }
 
-function typeWriter(){
-    if(i < message.length){
-        document.getElementById("typeText").innerHTML += message.charAt(i);
-        i++;
-        setTimeout(typeWriter, 60);
+function nextSlide(){
+    slides[currentSlide].classList.remove("active");
+    currentSlide++;
+
+    if(currentSlide < slides.length){
+        slides[currentSlide].classList.add("active");
     }
+}
+
+function cutCake(){
+    document.getElementById("cake").innerHTML = "🍰";
+    document.getElementById("cakeMsg").innerHTML =
+    "🎉 Cake Cut Successfully 🎉<br>❤️ Happy Birthday My Dear Thangachi ❤️";
 }
 </script>
 

@@ -3,106 +3,184 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Memories Slideshow</title>
+<title>Memory Flip Book</title>
+
+<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
 
 <style>
 body{
     margin:0;
-    min-height:100vh;
-    background:linear-gradient(#ffb6d9,#ffe6f2);
-    text-align:center;
-    font-family:Arial;
-    overflow-x:hidden;
+    height:100vh;
+    background:#ffe6f2;
+    font-family:Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    overflow:hidden;
 }
 
 h1{
     color:#8b0055;
-    margin-top:25px;
+    font-size:38px;
+    margin-bottom:10px;
 }
 
-.slide{
-    width:360px;
-    height:460px;
-    object-fit:cover;
-    border-radius:25px;
-    border:6px solid white;
-    box-shadow:0 0 30px hotpink;
-    animation:zoomFade 3s ease;
-}
-
-@keyframes zoomFade{
-    0%{opacity:0; transform:scale(0.85);}
-    30%{opacity:1; transform:scale(1);}
-    100%{opacity:1; transform:scale(1.05);}
-}
-
-.final-msg{
-    display:none;
-    font-size:25px;
+.subtitle{
     color:#8b0055;
-    font-weight:bold;
-    margin-top:30px;
+    font-size:18px;
+    margin-bottom:20px;
 }
 
-.back-btn{
-    margin-top:20px;
-    padding:14px 30px;
-    font-size:18px;
-    background:hotpink;
+#book{
+    box-shadow:0 8px 25px rgba(0,0,0,0.2);
+}
+
+.page{
+    background:white;
+    border:1px solid #ddd;
+    overflow:hidden;
+}
+
+.page img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.cover{
+    background:#ff69b4;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    padding:20px;
+    box-sizing:border-box;
+}
+
+.controls{
+    margin-top:18px;
+}
+
+button{
+    padding:10px 22px;
+    font-size:16px;
+    background:#ff69b4;
     color:white;
     border:none;
-    border-radius:30px;
+    border-radius:20px;
     cursor:pointer;
+    margin:5px;
 }
+
+button:hover{
+    background:#ff1493;
+}
+
 </style>
 </head>
 
 <body>
 
-<h1>📸 Our Beautiful Memories 📸</h1>
+    <div class="ribbon r1">🎀</div>
+    <div class="ribbon r2">✨</div>
+    <div class="ribbon r3">🌸</div>
+    <div class="ribbon r4">💖</div>
 
-<img id="slide" class="slide" src="{% static 'images/sister1.jpeg' %}">
+<h1>📖 Our Memory Book 📖</h1>
+<p class="subtitle">A little album filled with love, smiles and memories ❤️</p>
+<p class="subtitle">Simple memories, forever special ❤️</p>
+<div class="book-wrap">
+<div id="book">
 
-<div id="finalMsg" class="final-msg">
-    ❤️ Happy Birthday Thangachi ❤️ <br><br>
-    Thank you for all the beautiful memories. <br>
-    You will always be my little sister. <br><br>
-    Love You Forever 💖
+    <div class="page cover">
+        💖 Our Beautiful Memories 💖
+    </div>
+
+    <div class="page">
+        <img src="{% static 'images/sister1.jpeg' %}">
+    </div>
+
+    <div class="page">
+        <img src="{% static 'images/sister2.jpeg' %}">
+    </div>
+
+    <div class="page">
+        <img src="{% static 'images/sister3.jpeg' %}">
+    </div>
+
+    <div class="page">
+        <img src="{% static 'images/sister4.jpeg' %}">
+    </div>
+
+    <div class="page">
+        <img src="{% static 'images/sister5.jpeg' %}">
+    </div>
+
+    <div class="page">
+        <img src="{% static 'images/sister6.jpeg' %}">
+    </div>
+
+    <div class="page cover final-cover">
+        🎂 Happy Birthday Thangachi ❤️
+    </div>
+
+</div>
 </div>
 
-<br>
-
-<a href="/">
-    <button class="back-btn">🏠 Back to Home</button>
-</a>
+<div class="controls">
+    <button onclick="prevPage()">⬅ Previous</button>
+    <button onclick="nextPage()">Next ➡</button>
+    <a href="/"><button>🏠 Home</button></a>
+</div>
 
 <script>
-let photos = [
-    "{% static 'images/sister1.jpeg' %}",
-    "{% static 'images/sister2.jpeg' %}",
-    "{% static 'images/sister3.jpeg' %}",
-    "{% static 'images/sister4.jpeg' %}",
-    "{% static 'images/sister5.jpeg' %}",
-    "{% static 'images/sister6.jpeg' %}"
-];
-
-let index = 0;
-let slide = document.getElementById("slide");
-
-setInterval(function(){
-    index++;
-
-    if(index < photos.length){
-        slide.src = photos[index];
-        slide.style.animation = "none";
-        void slide.offsetWidth;
-        slide.style.animation = "zoomFade 3s ease";
-    } else {
-        slide.style.display = "none";
-        document.getElementById("finalMsg").style.display = "block";
+const pageFlip = new St.PageFlip(
+    document.getElementById("book"),
+    {
+        width: 360,
+        height: 500,
+        size: "fixed",
+        showCover: true,
+        maxShadowOpacity: 0.5,
+        mobileScrollSupport: false
     }
-}, 3000);
+);
+
+pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+
+function playFlip(){
+    let sound = document.getElementById("flipSound");
+    sound.currentTime = 0;
+    sound.play();
+}
+
+function nextPage(){
+    playFlip();
+    pageFlip.flipNext();
+}
+
+function prevPage(){
+    playFlip();
+    pageFlip.flipPrev();
+}
+
+window.onload = function(){
+    document.getElementById("openSound").play().catch(()=>{});
+}
+
 </script>
+
+<audio id="flipSound">
+    <source src="{% static 'music/page_flip.mp3' %}" type="audio/mpeg">
+</audio>
+
+<audio id="openSound">
+    <source src="{% static 'music/book_open.mp3' %}" type="audio/mpeg">
+</audio>
 
 </body>
 </html>

@@ -28,9 +28,6 @@ def surprise(request):
 
     return render(request, "surprise.html")
 
-def slideshow(request):
-    return render(request, 'slideshow.html')
-
 def game(request):
     return render(request,'game.html')
 

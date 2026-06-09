@@ -5,40 +5,62 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Birthday Gift</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         body {
-            margin: 0;
-            text-align: center;
-            background: linear-gradient(#ffb6d9, #ffe6f2);
-            font-family: Arial, sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
+    margin: 0;
+    text-align: center;
+    background: linear-gradient(-45deg, #ffb6d9, #ffe6f2, #ff8ccf, #ffd1e8);
+    background-size: 400% 400%;
+    animation: bgMove 8s ease infinite;
+    font-family:'Poppins',sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
 
-        h1 {
-            margin-top: 15px;
-            font-size: 34px;
-        }
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+        .main-title{
+    margin-top:15px;
+    font-size:65px;
+    font-weight:800;
+    color:#7a004d;
+    letter-spacing:2px;
+    text-shadow:
+        0 3px 10px rgba(255,20,147,0.4),
+        0 0 20px rgba(255,255,255,0.5);
+}
 
         .cake {
             width: 210px;
             border-radius: 20px;
         }
 
-        .gift {
-            font-size: 75px;
-            cursor: pointer;
-            animation: shake 1s infinite;
-        }
+        .gift{
+    font-size:100px;
+    cursor:pointer;
+    animation:giftPulse 1.5s infinite;
+}
 
-        @keyframes shake {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(8deg); }
-            50% { transform: rotate(-8deg); }
-            75% { transform: rotate(8deg); }
-            100% { transform: rotate(0deg); }
-        }
+@keyframes giftPulse{
+    0%{
+        transform:scale(1);
+        filter:drop-shadow(0 0 10px hotpink);
+    }
+    50%{
+        transform:scale(1.15);
+        filter:drop-shadow(0 0 25px #ff1493);
+    }
+    100%{
+        transform:scale(1);
+        filter:drop-shadow(0 0 10px hotpink);
+    }
+}
 
         .hidden-photo {
     display: none;
@@ -140,12 +162,26 @@
     border-radius:50px;
     cursor:pointer;
     box-shadow:0 0 20px rgba(255,20,147,0.5);
-    transition:0.3s;
+    transition:all 0.3s ease;
+    animation:glow 2s infinite;
 }
 
 .fancy-btn:hover{
-    transform:translateY(-5px) scale(1.05);
-    box-shadow:0 0 30px hotpink;
+    transform:translateY(-8px) scale(1.08);
+    box-shadow:0 0 35px #ff1493;
+    letter-spacing:1px;
+}
+
+@keyframes glow{
+    0%{
+        box-shadow:0 0 15px hotpink;
+    }
+    50%{
+        box-shadow:0 0 35px #ff1493;
+    }
+    100%{
+        box-shadow:0 0 15px hotpink;
+    }
 }
 
 .gift.opened{
@@ -302,10 +338,229 @@
     }
 }
 
+.glow{
+    position:fixed;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.25);
+    filter:blur(25px);
+    animation:glowMove 10s infinite alternate;
+    z-index:-1;
+}
+
+.g1{top:10%; left:10%;}
+.g2{top:50%; left:70%; animation-delay:2s;}
+.g3{top:70%; left:20%; animation-delay:4s;}
+
+@keyframes glowMove{
+    from{transform:translateY(0) scale(1);}
+    to{transform:translateY(-40px) scale(1.3);}
+}
+
+.star{
+    position:fixed;
+    font-size:28px;
+    animation:twinkle 2s infinite;
+    z-index:1;
+}
+
+.s1{top:20%; left:20%;}
+.s2{top:35%; left:80%; animation-delay:0.5s;}
+.s3{top:65%; left:15%; animation-delay:1s;}
+.s4{top:75%; left:75%; animation-delay:1.5s;}
+
+@keyframes twinkle{
+    0%{opacity:0.2; transform:scale(0.8);}
+    50%{opacity:1; transform:scale(1.3);}
+    100%{opacity:0.2; transform:scale(0.8);}
+}
+
+.cute-effect{
+    position:fixed;
+    font-size:35px;
+    z-index:1;
+    animation:floatCute 6s ease-in-out infinite;
+}
+
+.e1{top:8%; left:8%;}
+.e2{top:10%; left:14%; animation-delay:1s;}
+.e3{top:18%; left:5%; animation-delay:2s;}
+.e4{top:16%; left:52%; animation-delay:1.5s;}
+.e5{top:20%; left:88%; animation-delay:0.5s;}
+.e6{top:28%; left:70%; animation-delay:2.5s;}
+
+@keyframes floatCute{
+    0%{
+        transform:translateY(0) rotate(0deg) scale(1);
+        opacity:0.8;
+    }
+    50%{
+        transform:translateY(-25px) rotate(12deg) scale(1.15);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(0) rotate(0deg) scale(1);
+        opacity:0.8;
+    }
+}
+
+.heart-float{
+    position:fixed;
+    top:-50px;
+    font-size:30px;
+    animation:heartRain 10s linear infinite;
+    z-index:0;
+}
+
+.h1{left:10%;}
+.h2{left:30%;animation-delay:2s;}
+.h3{left:50%;animation-delay:4s;}
+.h4{left:70%;animation-delay:1s;}
+.h5{left:90%;animation-delay:3s;}
+
+@keyframes heartRain{
+    0%{
+        transform:translateY(-50px);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+}
+
+.fancy-btn:hover{
+    transform:translateY(-8px) scale(1.08);
+    box-shadow:0 0 40px #ff1493;
+}
+
+.rain{
+    position:fixed;
+    top:-100px;
+    font-size:35px;
+    z-index:0;
+    animation:emojiRain 10s linear infinite;
+}
+
+.r1{left:5%;}
+.r2{left:15%; animation-delay:1s;}
+.r3{left:30%; animation-delay:2s;}
+.r4{left:45%; animation-delay:3s;}
+.r5{left:60%; animation-delay:4s;}
+.r6{left:75%; animation-delay:5s;}
+.r7{left:85%; animation-delay:6s;}
+.r8{left:95%; animation-delay:7s;}
+
+@keyframes emojiRain{
+    0%{
+        transform:translateY(-100px) rotate(0deg);
+        opacity:1;
+    }
+
+    100%{
+        transform:translateY(120vh) rotate(360deg);
+        opacity:0.8;
+    }
+}
+
+body.dark-mode{
+    background:linear-gradient(-45deg,#120018,#2b0036,#4b0055,#16001f);
+    background-size:400% 400%;
+    animation:bgMove 8s ease infinite;
+    color:white;
+}
+
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.rain-item{
+    position:fixed;
+    top:-50px;
+    font-size:30px;
+    pointer-events:none;
+    z-index:0;
+    animation:rainFall linear forwards;
+}
+
+@keyframes rainFall{
+    from{
+        transform:translateY(-50px) rotate(0deg);
+        opacity:1;
+    }
+    to{
+        transform:translateY(110vh) rotate(360deg);
+        opacity:0;
+    }
+}
+
+.twinkle-star{
+    position:fixed;
+    font-size:24px;
+    pointer-events:none;
+    z-index:0;
+    animation:twinkle 2s infinite;
+}
+
+@keyframes twinkle{
+    0%{opacity:0.2; transform:scale(0.7);}
+    50%{opacity:1; transform:scale(1.4);}
+    100%{opacity:0.2; transform:scale(0.7);}
+}
+
+.auto-firework{
+    position:fixed;
+    font-size:45px;
+    pointer-events:none;
+    z-index:2;
+    animation:autoBoom 1.5s forwards;
+}
+
+@keyframes autoBoom{
+    0%{transform:scale(0); opacity:1;}
+    100%{transform:scale(2.5); opacity:0;}
+}
+
 </style>
 </head>
 
 <body id="body">
+
+    <div id="effectLayer"></div>
+
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+    <div class="glow g3"></div>
+
+    <div class="star s1">✨</div>
+    <div class="star s2">✨</div>
+    <div class="star s3">✨</div>
+    <div class="star s4">✨</div>
+
+    <div class="cute-effect e1">🌸</div>
+    <div class="cute-effect e2">🌺</div>
+    <div class="cute-effect e3">💙</div>
+    <div class="cute-effect e4">🎉</div>
+    <div class="cute-effect e5">✨</div>
+    <div class="cute-effect e6">🎈</div>
+
+    <div class="heart-float h1">💖</div>
+    <div class="heart-float h2">💝</div>
+    <div class="heart-float h3">💕</div>
+    <div class="heart-float h4">💗</div>
+    <div class="heart-float h5">💞</div>
+
+    <div class="rain r1">🌸</div>
+    <div class="rain r2">💖</div>
+    <div class="rain r3">✨</div>
+    <div class="rain r4">🎉</div>
+    <div class="rain r5">🎈</div>
+    <div class="rain r6">🌺</div>
+    <div class="rain r7">💝</div>
+    <div class="rain r8">⭐</div>
 
     <a href="/logout/">
         <button class="logout-btn">Logout</button>
@@ -327,15 +582,31 @@
     <img class="balloon b4" src="{% static 'images/balloon.png' %}">
     <img class="balloon b5" src="{% static 'images/balloon.png' %}">
 
-    <h1>🎂 Happy Birthday Amma🥺🫂 🎂</h1>
+    <h1 class="main-title">
+🎂 Happy Birthday Amma 🎂
+</h1>
 
     <img class="cake" src="{% static 'images/sister_cake.jpg' %}">
 
-    <h2>💖 My Dear Sister 💖</h2>
+    <h2 style="
+font-size:42px;
+font-weight:700;
+color:#8b0055;
+text-shadow:0 0 10px rgba(255,20,147,0.3);
+">
+💖 My Dear Sister 💖
+</h2>
 
     <p>May your life be filled with happiness, success and smiles 😊</p>
 
-    <h2>Click the Gift Box 👇</h2>
+    <h2 style="
+font-size:36px;
+font-weight:700;
+color:#6d0044;
+letter-spacing:1px;
+">
+🎁 Click the Gift Box 👇
+</h2>
 
     <div class="gift" onclick="openGift()">🎁</div>
 
@@ -352,10 +623,6 @@
 
     <a href="/surprise/">
         <button class="fancy-btn">💌 Secret Surprise</button>
-    </a>
-
-    <a href="/slideshow/">
-        <button class="fancy-btn">📸 Beautiful Memories</button>
     </a>
 
     <a href="/game/">
@@ -464,8 +731,6 @@ function createConfetti(){
     }
 }
 
-/* 👇 idha inga paste pannu */
-
 let dark = false;
 
 function changeTheme(){
@@ -474,11 +739,11 @@ function changeTheme(){
     let btn = document.querySelector(".theme-btn");
 
     if(dark == false){
-        body.style.background = "linear-gradient(#111,#333)";
+        body.classList.add("dark-mode");
         btn.innerHTML = "☀️";
         dark = true;
     }else{
-        body.style.background = "linear-gradient(#ffb6d9,#ffe6f2)";
+        body.classList.remove("dark-mode");
         btn.innerHTML = "🌙";
         dark = false;
     }
@@ -494,6 +759,131 @@ window.onload = function(){
         console.log("Autoplay blocked");
     });
 }
+</script>
+
+<script>
+document.addEventListener("mousemove", function(e){
+
+    let emojis = ["💖","✨","🌸","💙"];
+
+    let spark = document.createElement("div");
+
+    spark.innerHTML =
+    emojis[Math.floor(Math.random()*emojis.length)];
+
+    spark.style.position = "fixed";
+    spark.style.left = e.clientX + "px";
+    spark.style.top = e.clientY + "px";
+
+    spark.style.pointerEvents = "none";
+    spark.style.fontSize = "20px";
+    spark.style.zIndex = "9999";
+
+    document.body.appendChild(spark);
+
+    setTimeout(function(){
+        spark.remove();
+    },800);
+});
+</script>
+
+<script>
+setInterval(function(){
+
+    let emojis =
+    ["🌸","💖","✨","🎉","🎈","🌺","💝","⭐"];
+
+    let item = document.createElement("div");
+
+    item.innerHTML =
+    emojis[Math.floor(Math.random()*emojis.length)];
+
+    item.style.position = "fixed";
+    item.style.left = Math.random()*100 + "vw";
+    item.style.top = "-50px";
+    item.style.fontSize = "35px";
+    item.style.zIndex = "0";
+
+    document.body.appendChild(item);
+
+    let pos = -50;
+
+    let fall = setInterval(function(){
+
+        pos += 4;
+
+        item.style.top = pos + "px";
+
+        if(pos > window.innerHeight){
+            clearInterval(fall);
+            item.remove();
+        }
+
+    },30);
+
+},500);
+</script>
+
+<script>
+function createRain(){
+
+    let emojis = ["🌸","🌺","💖","💝","✨","🎈","🫧","⭐"];
+
+    let item = document.createElement("div");
+
+    item.className = "rain-item";
+
+    item.innerHTML =
+    emojis[Math.floor(Math.random()*emojis.length)];
+
+    item.style.left = Math.random()*100 + "vw";
+    item.style.fontSize = (20 + Math.random()*25) + "px";
+    item.style.animationDuration = (5 + Math.random()*5) + "s";
+
+    document.body.appendChild(item);
+
+    setTimeout(function(){
+        item.remove();
+    },10000);
+}
+
+function createStar(){
+
+    let star = document.createElement("div");
+
+    star.className = "twinkle-star";
+    star.innerHTML = "✨";
+
+    star.style.left = Math.random()*100 + "vw";
+    star.style.top = Math.random()*100 + "vh";
+
+    document.body.appendChild(star);
+
+    setTimeout(function(){
+        star.remove();
+    },4000);
+}
+
+function createAutoFirework(){
+
+    let fire = document.createElement("div");
+
+    fire.className = "auto-firework";
+    fire.innerHTML = Math.random() > 0.5 ? "🎆" : "🎇";
+
+    fire.style.left = Math.random()*90 + "vw";
+    fire.style.top = Math.random()*70 + "vh";
+
+    document.body.appendChild(fire);
+
+    setTimeout(function(){
+        fire.remove();
+    },1500);
+}
+
+setInterval(createRain, 250);
+setInterval(createStar, 900);
+setInterval(createAutoFirework, 5000);
 </script>
 
 </body>

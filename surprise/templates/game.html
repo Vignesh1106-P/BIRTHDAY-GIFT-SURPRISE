@@ -32,6 +32,11 @@ h1{
     position:absolute;
     font-size:70px;
     cursor:pointer;
+    transition:0.3s;
+}
+
+.cake:hover{
+    transform:scale(1.2);
 }
 
 #result{
@@ -51,6 +56,8 @@ h1{
     font-weight:bold;
     color:#8b0055;
 }
+
+
 
 </style>
 </head>
@@ -104,13 +111,44 @@ function moveCake(){
 }
 
 cake.onclick = function(){
+
     score++;
+
     document.getElementById("score").innerHTML = score;
 
-    let randomWish = wishes[Math.floor(Math.random() * wishes.length)];
-    document.getElementById("wishText").innerHTML = randomWish;
+    let randomWish =
+    wishes[Math.floor(Math.random() * wishes.length)];
 
-    moveCake();
+    document.getElementById("wishText").innerHTML =
+    randomWish;
+
+    cake.innerHTML = "🍰";
+
+    let popup = document.createElement("div");
+
+    popup.innerHTML = "🎉 Cake Cut! +1";
+
+    popup.style.position = "absolute";
+    popup.style.left = cake.style.left;
+    popup.style.top = cake.style.top;
+
+    popup.style.color = "#ff1493";
+    popup.style.fontSize = "28px";
+    popup.style.fontWeight = "bold";
+
+    document.body.appendChild(popup);
+
+    setTimeout(function(){
+        popup.remove();
+    },800);
+
+    setTimeout(function(){
+
+        cake.innerHTML = "🎂";
+
+        moveCake();
+
+    },500);
 }
 
 moveCake();
