@@ -1,118 +1,134 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Birthday Countdown</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0008;--surface:rgba(255,255,255,0.04);
+  --gold:#f5c842;--gold-dim:rgba(245,200,66,0.5);
+  --cream:#fff8f0;--text-dim:rgba(255,248,240,0.55);
+  --border:rgba(245,200,66,0.15);
+}
 body{
-    margin:0;
-    min-height:100vh;
-    background:linear-gradient(#ffb6d9,#ffe6f2);
-    text-align:center;
-    font-family:Arial;
+  min-height:100vh;background:var(--bg);
+  color:var(--cream);font-family:'Inter',sans-serif;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:24px;
 }
 
-h1{
-    color:#8b0055;
-    margin-top:60px;
+.eyebrow{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold-dim);margin-bottom:16px;text-align:center;
 }
+.title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,5vw,48px);font-weight:700;
+  text-align:center;margin-bottom:8px;
+}
+.title em{
+  font-style:italic;
+  background:linear-gradient(135deg,#f5c842,#ff85b3);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.subtitle{font-size:14px;color:var(--text-dim);text-align:center;margin-bottom:56px;letter-spacing:0.5px}
 
-.timer-box{
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    flex-wrap:wrap;
-    margin-top:40px;
+.timer{
+  display:flex;gap:clamp(12px,3vw,24px);flex-wrap:wrap;justify-content:center;
+  margin-bottom:56px;
 }
+.unit{
+  display:flex;flex-direction:column;align-items:center;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;padding:clamp(20px,4vw,32px) clamp(16px,3vw,28px);
+  min-width:clamp(80px,18vw,120px);
+  position:relative;overflow:hidden;
+}
+.unit::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(245,200,66,0.04),transparent);
+}
+.unit-val{
+  font-size:clamp(40px,7vw,64px);font-weight:600;
+  color:var(--gold);font-variant-numeric:tabular-nums;
+  line-height:1;transition:transform 0.2s;
+}
+.unit-val.tick{animation:tick 0.2s ease;}
+@keyframes tick{0%,100%{transform:none}50%{transform:scale(1.08)}}
+.unit-lbl{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:8px}
 
-.box{
-    background:white;
-    padding:25px;
-    border-radius:20px;
-    min-width:120px;
-    box-shadow:0 0 25px hotpink;
+.arrived{
+  display:none;text-align:center;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,5vw,48px);color:var(--gold);
+  animation:fadeIn 1s;
 }
+@keyframes fadeIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:none}}
+.arrived.show{display:block;}
 
-.num{
-    font-size:40px;
-    font-weight:bold;
-    color:#ff1493;
+.back-btn{
+  padding:12px 28px;border-radius:50px;border:none;
+  background:linear-gradient(135deg,#f5c842,#e8a800);
+  color:#1a0012;font-family:'Playfair Display',serif;
+  font-size:14px;font-weight:700;cursor:pointer;transition:all 0.25s;
 }
+.back-btn:hover{box-shadow:0 8px 24px rgba(245,200,66,0.4)}
 
-.label{
-    font-size:18px;
-    color:#8b0055;
-}
-
-#birthdayMsg{
-    display:none;
-    font-size:35px;
-    color:#8b0055;
-    margin-top:40px;
-    font-weight:bold;
-}
+.fp{position:fixed;border-radius:50%;pointer-events:none;z-index:0;animation:fprise linear infinite}
+@keyframes fprise{0%{transform:translateY(100vh);opacity:0}10%{opacity:0.5}90%{opacity:0.2}100%{transform:translateY(-10vh);opacity:0}}
 </style>
 </head>
-
 <body>
 
-<h1>🎂 Birthday Countdown 🎂</h1>
+<p class="eyebrow">The big day is coming</p>
+<h1 class="title">Countdown to <em>June 28</em></h1>
+<p class="subtitle">Thangachi's birthday — every second counts</p>
 
-<h2>Waiting for 28 June 🎁</h2>
-
-<div class="timer-box">
-    <div class="box">
-        <div id="days" class="num">0</div>
-        <div class="label">Days</div>
-    </div>
-
-    <div class="box">
-        <div id="hours" class="num">0</div>
-        <div class="label">Hours</div>
-    </div>
-
-    <div class="box">
-        <div id="minutes" class="num">0</div>
-        <div class="label">Minutes</div>
-    </div>
-
-    <div class="box">
-        <div id="seconds" class="num">0</div>
-        <div class="label">Seconds</div>
-    </div>
+<div class="timer" id="timer">
+  <div class="unit"><div class="unit-val" id="days">0</div><div class="unit-lbl">Days</div></div>
+  <div class="unit"><div class="unit-val" id="hours">0</div><div class="unit-lbl">Hours</div></div>
+  <div class="unit"><div class="unit-val" id="minutes">0</div><div class="unit-lbl">Minutes</div></div>
+  <div class="unit"><div class="unit-val" id="seconds">0</div><div class="unit-lbl">Seconds</div></div>
 </div>
 
-<div id="birthdayMsg">
-    🎉 Happy Birthday Thangachi ❤️ 🎉
-</div>
+<div class="arrived" id="arrived">🎉 Happy Birthday Thangachi! ❤️</div>
+
+<a href="/"><button class="back-btn">🏠 Back to Home</button></a>
 
 <script>
-let birthdayDate = new Date("June 28, 2026 00:00:00").getTime();
+const bd=new Date('June 28, 2026 00:00:00').getTime();
+const els={days:document.getElementById('days'),hours:document.getElementById('hours'),minutes:document.getElementById('minutes'),seconds:document.getElementById('seconds')};
 
-let timer = setInterval(function(){
+function update(){
+  const diff=bd-Date.now();
+  if(diff<=0){
+    document.getElementById('timer').style.display='none';
+    document.getElementById('arrived').classList.add('show');
+    return;
+  }
+  const d=Math.floor(diff/864e5);
+  const h=Math.floor(diff%864e5/36e5);
+  const m=Math.floor(diff%36e5/6e4);
+  const s=Math.floor(diff%6e4/1e3);
+  set('days',d);set('hours',h);set('minutes',m);set('seconds',s);
+}
+function set(k,v){
+  const el=els[k];
+  const pv=el.textContent;
+  el.textContent=String(v).padStart(2,'0');
+  if(pv!==el.textContent){el.classList.remove('tick');void el.offsetWidth;el.classList.add('tick');}
+}
+update();setInterval(update,1000);
 
-    let now = new Date().getTime();
-    let distance = birthdayDate - now;
-
-    if(distance <= 0){
-        clearInterval(timer);
-        document.querySelector(".timer-box").style.display = "none";
-        document.getElementById("birthdayMsg").style.display = "block";
-        return;
-    }
-
-    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.getElementById("days").innerHTML = days;
-    document.getElementById("hours").innerHTML = hours;
-    document.getElementById("minutes").innerHTML = minutes;
-    document.getElementById("seconds").innerHTML = seconds;
-
-},1000);
+for(let i=0;i<12;i++){
+  const p=document.createElement('div');p.className='fp';
+  const s=15+Math.random()*40;
+  p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;background:radial-gradient(circle,rgba(245,200,66,0.2),transparent 70%);animation-duration:${12+Math.random()*10}s;animation-delay:-${Math.random()*12}s`;
+  document.body.appendChild(p);
+}
 </script>
-
 </body>
 </html>

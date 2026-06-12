@@ -1,263 +1,250 @@
 <!DOCTYPE html>
-<html>
+<html lang="ta">
 <head>
-<title>Birthday Login</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise — Enter</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-body{
-    margin:0;
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    font-family:Arial;
-    background:linear-gradient(120deg,#ff9ad5,#ffd6ec,#ffb6d9);
-    overflow:hidden;
-}
+  :root {
+    --bg: #0d0008;
+    --surface: #1a0012;
+    --border: rgba(245,200,66,0.2);
+    --gold: #f5c842;
+    --gold-dim: rgba(245,200,66,0.6);
+    --rose: #ff85b3;
+    --cream: #fff8f0;
+    --text-dim: rgba(255,248,240,0.55);
+    --radius: 16px;
+  }
 
-.login-box{
-    width:350px;
-    padding:35px;
-    background:white;
-    border-radius:25px;
-    text-align:center;
-    box-shadow:0 0 30px hotpink;
-    animation:pop 1.2s ease;
-}
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    color: var(--cream);
+    overflow: hidden;
+    position: relative;
+  }
 
-@keyframes pop{
-    0%{transform:scale(0);opacity:0;}
-    100%{transform:scale(1);opacity:1;}
-}
+  .particle {
+    position: fixed;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,200,66,0.35), transparent 70%);
+    animation: drift linear infinite;
+    pointer-events: none;
+  }
+  @keyframes drift {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
 
-h1{
-    color:#8b0055;
-}
+  .card {
+    position: relative;
+    z-index: 10;
+    width: min(420px, 92vw);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px 40px 40px;
+    box-shadow: 0 0 80px rgba(245,200,66,0.06), 0 40px 80px rgba(0,0,0,0.6);
+    animation: cardEnter 0.9s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  @keyframes cardEnter {
+    from { transform: translateY(30px) scale(0.96); opacity: 0; }
+    to   { transform: translateY(0) scale(1); opacity: 1; }
+  }
 
-input{
-    width:90%;
-    padding:15px;
-    font-size:17px;
-    border-radius:12px;
-    border:2px solid hotpink;
-    outline:none;
-}
+  .seal {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #f5c842, #e8a800, #f5c842, #e8a800, #f5c842);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 28px;
+    box-shadow: 0 0 30px rgba(245,200,66,0.4);
+    animation: sealSpin 20s linear infinite;
+  }
+  @keyframes sealSpin {
+    to { background: conic-gradient(from 360deg, #f5c842, #e8a800, #f5c842, #e8a800, #f5c842); }
+  }
 
-button{
-    padding:13px 30px;
-    font-size:18px;
-    background:hotpink;
-    color:white;
-    border:none;
-    border-radius:15px;
-    cursor:pointer;
-    animation:shake 1.5s infinite;
-}
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--cream);
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 36px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
 
-@keyframes shake{
-    0%{transform:rotate(0);}
-    25%{transform:rotate(3deg);}
-    50%{transform:rotate(-3deg);}
-    75%{transform:rotate(3deg);}
-    100%{transform:rotate(0);}
-}
+  .countdown-chip {
+    text-align: center;
+    font-size: 13px;
+    color: var(--gold-dim);
+    letter-spacing: 0.4px;
+    margin-bottom: 32px;
+    font-variant-numeric: tabular-nums;
+    height: 20px;
+    font-family: 'Inter', sans-serif;
+  }
 
-.heart{
-    position:absolute;
-    top:-50px;
-    font-size:30px;
-    animation:fall 7s linear infinite;
-}
+  .field-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .field-wrap {
+    position: relative;
+    margin-bottom: 24px;
+  }
+  .field-wrap input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(245,200,66,0.2);
+    border-radius: var(--radius);
+    padding: 14px 48px 14px 18px;
+    font-size: 15px;
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    letter-spacing: 3px;
+  }
+  .field-wrap input:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(245,200,66,0.12);
+  }
+  .eye-btn {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .eye-btn:hover { opacity: 1; }
 
-.h1{left:10%;}
-.h2{left:30%;animation-delay:2s;}
-.h3{left:60%;animation-delay:4s;}
-.h4{left:85%;animation-delay:1s;}
+  .emoji-mask {
+    min-height: 28px;
+    font-size: 20px;
+    letter-spacing: 4px;
+    text-align: center;
+    margin-bottom: 20px;
+    word-break: break-all;
+  }
 
-@keyframes fall{
-    0%{transform:translateY(-50px);}
-    100%{transform:translateY(110vh);}
-}
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #f5c842, #e8a800);
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #1a0012;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(245,200,66,0.25);
+  }
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(245,200,66,0.4);
+  }
+  .submit-btn:active { transform: translateY(0); }
 
-.password-box{
-    position:relative;
-    width:100%;
-}
-
-.password-box input{
-    width:85%;
-    padding-right:45px;
-}
-
-.eye{
-    position:absolute;
-    right:25px;
-    top:13px;
-    cursor:pointer;
-    font-size:20px;
-}
-
-.typing-heart{
-    height:25px;
-    color:#ff1493;
-    font-weight:bold;
-    margin-top:8px;
-}
-
-#emojiMask{
-    margin-top:10px;
-    font-size:25px;
-}
-
-#strengthText{
-    margin-top:10px;
-    font-size:18px;
-    font-weight:bold;
-}
-
+  .error-msg {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--rose);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .error-msg.show { opacity: 1; }
 </style>
 </head>
-
 <body>
 
-<div class="heart h1">💖</div>
-<div class="heart h2">🎂</div>
-<div class="heart h3">🎁</div>
-<div class="heart h4">💝</div>
+<div class="card">
+  <div class="seal">🎀</div>
+  <h1>Birthday Surprise</h1>
+  <p class="subtitle">Enter the secret password</p>
+  <div class="countdown-chip" id="cd">Loading...</div>
 
-<h2 id="countdown" style="
-color:white;
-font-size:28px;
-margin-bottom:20px;
-text-shadow:2px 2px 10px hotpink;">
-</h2>
-
-<div class="login-box">
-    <h1>🔒 Birthday Surprise 🔒</h1>
-    <p>Enter secret password to open your gift 🎁</p>
-
-    <form method="POST">
-        {% csrf_token %}
-
-        <div class="password-box">
-    <input id="passwordInput"
-       type="password"
-       name="password"
-       placeholder="Secret Password"
-       oninput="showEmoji()">
-    <span onclick="togglePassword()" class="eye">👁️</span>
-</div>
-
-<div id="typingHeart" class="typing-heart"></div>
-
-<div id="emojiMask"></div>
-<div id="strengthText"></div>
-
-        <br><br>
-
-        <button type="submit">Unlock 🎁</button>
-    </form>
-
-    <h3 style="color:red;">{{ error }}</h3>
+  <form method="POST">
+    {% csrf_token %}
+    <p class="field-label">Secret Password</p>
+    <div class="field-wrap">
+      <input id="pw" type="password" name="password" placeholder="••••••••" autocomplete="off" oninput="onType(this)">
+      <button type="button" class="eye-btn" onclick="toggleEye()">👁</button>
+    </div>
+    <div class="emoji-mask" id="mask"></div>
+    <button class="submit-btn" type="submit">Open Your Surprise ✨</button>
+  </form>
+  <p class="error-msg {% if error %}show{% endif %}">{{ error }}</p>
 </div>
 
 <script>
+  // Particles
+  for(let i=0;i<18;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const s=20+Math.random()*60;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${8+Math.random()*10}s;animation-delay:-${Math.random()*10}s`;
+    document.body.appendChild(p);
+  }
 
-let birthdayDate = new Date("June 28, 2026 00:00:00").getTime();
+  // Countdown
+  const bd=new Date('June 28, 2026 00:00:00').getTime();
+  function updateCd(){
+    const diff=bd-Date.now();
+    if(diff<=0){document.getElementById('cd').textContent='🎉 Happy Birthday Thangachi!';return;}
+    const d=Math.floor(diff/864e5),h=Math.floor(diff%864e5/36e5),m=Math.floor(diff%36e5/6e4),s=Math.floor(diff%6e4/1e3);
+    document.getElementById('cd').textContent=`${d}d ${h}h ${m}m ${s}s until June 28 🎂`;
+  }
+  updateCd();setInterval(updateCd,1000);
 
-setInterval(function(){
+  // Eye toggle
+  function toggleEye(){
+    const i=document.getElementById('pw');
+    i.type=i.type==='password'?'text':'password';
+  }
 
-    let now = new Date().getTime();
-    let distance = birthdayDate - now;
-    
-    if(distance <= 0){
-    document.getElementById("countdown").innerHTML =
-    "🎉 Happy Birthday Thangachi ❤️";
-    return;
-    }
-
-    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.getElementById("countdown").innerHTML =
-    "🎂 Birthday Countdown: " +
-    days + "d " +
-    hours + "h " +
-    minutes + "m " +
-    seconds + "s";
-
-},1000);
-
+  // Emoji mask
+  const emojis=['🎂','🎁','🎈','🎉','🍫','🧸','🌹','👑','💎','🌸'];
+  function onType(el){
+    const mask=document.getElementById('mask');
+    mask.textContent=[...el.value].map(()=>emojis[Math.floor(Math.random()*emojis.length)]).join(' ');
+  }
 </script>
-
-<script>
-function togglePassword(){
-    let input = document.getElementById("passwordInput");
-    let eye = document.querySelector(".eye");
-
-    if(input.type === "password"){
-        input.type = "text";
-        eye.innerHTML = "🙈";
-    }else{
-        input.type = "password";
-        eye.innerHTML = "👁️";
-    }
-}
-
-function showTypingHeart(){
-    document.getElementById("typingHeart").innerHTML = "💖 Secret unlocking...";
-}
-
-
-function showEmoji(){
-
-    let pass =
-    document.getElementById("passwordInput").value;
-
-    let emoji = "";
-
-    let emojis = [
-"🎂",
-"🎁",
-"🎈",
-"🎉",
-"🍫",
-"🧸",
-"🌹",
-"👑"
-];
-
-    for(let i=0;i<pass.length;i++){
-
-        emoji += emojis[
-            Math.floor(Math.random()*emojis.length)
-        ];
-    }
-
-    document.getElementById("emojiMask").innerHTML = emoji;
-
-    let strength =
-    document.getElementById("strengthText");
-
-    if(pass.length < 4){
-        strength.innerHTML = "💔 Weak";
-        strength.style.color = "red";
-    }
-    else if(pass.length < 8){
-        strength.innerHTML = "💛 Medium";
-        strength.style.color = "orange";
-    }
-    else{
-        strength.innerHTML = "💙 Strong";
-        strength.style.color = "blue";
-    }
-}   
-
-</script>
-
 </body>
 </html>

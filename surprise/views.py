@@ -43,3 +43,9 @@ def logout_page(request):
 
 def loading(request):
     return render(request,'loading.html')
+
+def slideshow(request):
+    if not request.session.get("birthday_login"):
+        return redirect("login")
+    
+    return render(request, 'slideshow.html')

@@ -1,188 +1,225 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Secret Birthday Surprise</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secret Surprise</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0008;--gold:#f5c842;--rose:#ff85b3;
+  --cream:#fff8f0;--text-dim:rgba(255,248,240,0.55);
+}
 body{
-    margin:0;
-    min-height:100vh;
-    background:linear-gradient(#ffb6d9,#ffe6f2);
-    font-family:Arial;
-    text-align:center;
-    overflow:hidden;
+  min-height:100vh;background:var(--bg);
+  color:var(--cream);font-family:'Inter',sans-serif;
+  overflow:hidden;
 }
 
 .slide{
-    display:none;
-    height:100vh;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    padding:20px;
-    box-sizing:border-box;
-    animation:fade 1s;
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:32px 24px;text-align:center;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.7s ease,transform 0.7s ease;
+  transform:translateX(60px);
+}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0)}
+.slide.exit{opacity:0;transform:translateX(-60px)}
+
+.slide-icon{font-size:80px;margin-bottom:24px;display:block;
+  animation:iconIn 0.6s 0.3s cubic-bezier(0.34,1.56,0.64,1) both}
+@keyframes iconIn{from{transform:scale(0) rotate(-10deg)}to{transform:scale(1) rotate(0)}}
+
+.slide-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(26px,5vw,48px);font-weight:700;
+  color:var(--cream);margin-bottom:12px;line-height:1.15;
+}
+.slide-title em{
+  font-style:italic;
+  background:linear-gradient(135deg,#f5c842,#ff85b3);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.slide-body{
+  font-size:16px;color:var(--text-dim);max-width:480px;line-height:1.7;margin-bottom:36px;
 }
 
-.slide.active{
-    display:flex;
+.progress{
+  position:fixed;top:0;left:0;right:0;height:2px;
+  background:rgba(245,200,66,0.1);z-index:50;
+}
+.progress-fill{height:100%;background:var(--gold);transition:width 0.5s ease}
+
+.nav-btns{display:flex;gap:12px;align-items:center}
+.btn{
+  padding:13px 28px;border-radius:50px;border:none;
+  font-family:'Playfair Display',serif;font-size:15px;
+  cursor:pointer;transition:all 0.25s;letter-spacing:0.3px;
+}
+.btn-primary{
+  background:linear-gradient(135deg,#f5c842,#e8a800);
+  color:#1a0012;font-weight:700;
+  box-shadow:0 4px 20px rgba(245,200,66,0.25);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(245,200,66,0.4)}
+.btn-ghost{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);
+  color:var(--cream);
+}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+
+.counter{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  font-size:12px;color:var(--text-dim);letter-spacing:1px;
+  display:flex;gap:6px;align-items:center;
+}
+.dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,0.2);transition:all 0.3s;
+}
+.dot.active{background:var(--gold);transform:scale(1.3)}
+
+#cake{font-size:90px;cursor:pointer;transition:transform 0.3s;display:block}
+#cake:hover{transform:scale(1.1)}
+#cakeMsg{
+  font-family:'Playfair Display',serif;font-size:22px;
+  color:var(--gold);margin-top:16px;min-height:60px;font-style:italic;
 }
 
-@keyframes fade{
-    from{opacity:0; transform:scale(0.9);}
-    to{opacity:1; transform:scale(1);}
-}
-
-h1,h2{
-    color:#8b0055;
-}
-
-.big{
-    font-size:45px;
-    font-weight:bold;
-    text-shadow:0 0 15px hotpink;
-}
-
-.emoji{
-    font-size:110px;
-    margin:20px;
-}
-
-.next-btn{
-    margin-top:25px;
-    padding:15px 35px;
-    font-size:20px;
-    background:hotpink;
-    color:white;
-    border:none;
-    border-radius:30px;
-    cursor:pointer;
-    box-shadow:0 0 20px hotpink;
-}
-
-.cake{
-    font-size:120px;
-    cursor:pointer;
-}
-
-.firework{
-    position:fixed;
-    font-size:40px;
-    animation:boom 1.5s infinite;
-}
-
-@keyframes boom{
-    0%{transform:scale(0);opacity:1;}
-    100%{transform:scale(2.5);opacity:0;}
-}
-
-@media(max-width:600px){
-    .big{font-size:30px;}
-    .emoji{font-size:85px;}
-    h1{font-size:26px;}
-    h2{font-size:20px;}
-}
+.fp{position:fixed;border-radius:50%;pointer-events:none;z-index:0;animation:fprise linear infinite}
+@keyframes fprise{0%{transform:translateY(100vh);opacity:0}10%{opacity:0.5}90%{opacity:0.2}100%{transform:translateY(-10vh);opacity:0}}
 </style>
 </head>
-
 <body>
 
-<audio id="birthdayMusic">
-    <source src="{% static 'music/birthday_song.mp3' %}" type="audio/mpeg">
+<div class="progress"><div class="progress-fill" id="pbar"></div></div>
+
+<audio id="music">
+  <source src="{% static 'music/birthday_song.mp3' %}" type="audio/mpeg">
 </audio>
 
-<div class="firework" style="top:15%;left:15%;">🎆</div>
-<div class="firework" style="top:20%;left:75%;">🎇</div>
-<div class="firework" style="top:60%;left:20%;">🎆</div>
-<div class="firework" style="top:65%;left:80%;">🎇</div>
-
-<div class="slide active">
-    <h1 class="big">🔒 Secret Birthday Surprise 🔒</h1>
-    <h2>❤️ A Special Gift Made Just For You ❤️</h2>
-    <div class="emoji">🎁</div>
-    <button class="next-btn" onclick="startSurprise()">Unlock Surprise</button>
+<div class="slide active" id="s0">
+  <span class="slide-icon">🎁</span>
+  <h1 class="slide-title">Secret Birthday<br><em>Surprise</em></h1>
+  <p class="slide-body">A special journey made with love, just for you.</p>
+  <div class="nav-btns">
+    <button class="btn btn-primary" onclick="go(1)">Unlock Surprise →</button>
+  </div>
 </div>
 
-<div class="slide">
-    <div class="emoji">🌹</div>
-    <h1>A Rose Filled With Love</h1>
-    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+<div class="slide" id="s1">
+  <span class="slide-icon">🌹</span>
+  <h1 class="slide-title">A Rose<br><em>Filled With Love</em></h1>
+  <p class="slide-body">Every petal a memory, every thorn a lesson we've learned together.</p>
+  <div class="nav-btns">
+    <button class="btn btn-ghost" onclick="go(0)">←</button>
+    <button class="btn btn-primary" onclick="go(2)">Next →</button>
+  </div>
 </div>
 
-<div class="slide">
-    <div class="emoji">🧸</div>
-    <h1>A Teddy Full Of Hugs</h1>
-    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+<div class="slide" id="s2">
+  <span class="slide-icon">🧸</span>
+  <h1 class="slide-title">A Teddy<br><em>Full of Hugs</em></h1>
+  <p class="slide-body">Whenever you need comfort, know that your brother's there.</p>
+  <div class="nav-btns">
+    <button class="btn btn-ghost" onclick="go(1)">←</button>
+    <button class="btn btn-primary" onclick="go(3)">Next →</button>
+  </div>
 </div>
 
-<div class="slide">
-    <div class="emoji">🍫</div>
-    <h1>Sweet Moments Like Chocolate</h1>
-    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+<div class="slide" id="s3">
+  <span class="slide-icon">🍫</span>
+  <h1 class="slide-title">Sweet Moments<br><em>Like Chocolate</em></h1>
+  <p class="slide-body">Life is sweeter with you in it. Every shared moment is a treasure.</p>
+  <div class="nav-btns">
+    <button class="btn btn-ghost" onclick="go(2)">←</button>
+    <button class="btn btn-primary" onclick="go(4)">Next →</button>
+  </div>
 </div>
 
-<div class="slide">
-    <div class="emoji">👑</div>
-    <h1>My Forever Favourite Sister</h1>
-    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+<div class="slide" id="s4">
+  <span class="slide-icon">👑</span>
+  <h1 class="slide-title">My Forever<br><em>Favourite Sister</em></h1>
+  <p class="slide-body">You always support me. Your smile makes everyone around you happy. You are my world.</p>
+  <div class="nav-btns">
+    <button class="btn btn-ghost" onclick="go(3)">←</button>
+    <button class="btn btn-primary" onclick="go(5)">Next →</button>
+  </div>
 </div>
 
-<div class="slide">
-    <h1>💖 Why You Are Special 💖</h1>
-    <h2>❤️ You always support me</h2>
-    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+<div class="slide" id="s5">
+  <span class="slide-icon">🌟</span>
+  <h1 class="slide-title">You Are<br><em>Very Special</em></h1>
+  <p class="slide-body">There are stars in the sky, but the brightest one is the light you bring to our family.</p>
+  <div class="nav-btns">
+    <button class="btn btn-ghost" onclick="go(4)">←</button>
+    <button class="btn btn-primary" onclick="go(6)">Final surprise →</button>
+  </div>
 </div>
 
-<div class="slide">
-    <h1>😊 Your smile makes everyone happy</h1>
-    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
+<div class="slide" id="s6">
+  <h1 class="slide-title" style="margin-bottom:24px">🎂 Cut Your Cake</h1>
+  <span id="cake" onclick="cutCake()">🎂</span>
+  <p id="cakeMsg"></p>
+  <div class="nav-btns" style="margin-top:28px">
+    <button class="btn btn-ghost" onclick="go(5)">←</button>
+    <a href="/"><button class="btn btn-primary">🏠 Home</button></a>
+  </div>
 </div>
 
-<div class="slide">
-    <h1>💖 You are my favourite sister</h1>
-    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
-</div>
-
-<div class="slide">
-    <h1>🌟 You are very special to me</h1>
-    <button class="next-btn" onclick="nextSlide()">Next ➡️</button>
-</div>
-
-<div class="slide">
-    <h1>🎂 Cut Your Birthday Cake 🎂</h1>
-    <div id="cake" class="cake" onclick="cutCake()">🎂</div>
-    <h2 id="cakeMsg"></h2>
-    <a href="/">
-        <button class="next-btn">🏠 Back To Home</button>
-    </a>
-</div>
+<div class="counter" id="dots"></div>
 
 <script>
-let currentSlide = 0;
-let slides = document.querySelectorAll(".slide");
+const total=7;
+let current=0;
 
-function startSurprise(){
-    document.getElementById("birthdayMusic").play();
-    nextSlide();
-}
+const dotsEl=document.getElementById('dots');
+for(let i=0;i<total;i++){const d=document.createElement('div');d.className='dot'+(i===0?' active':'');dotsEl.appendChild(d);}
 
-function nextSlide(){
-    slides[currentSlide].classList.remove("active");
-    currentSlide++;
-
-    if(currentSlide < slides.length){
-        slides[currentSlide].classList.add("active");
-    }
+function go(n){
+  const prev=current;
+  document.getElementById('s'+prev).classList.remove('active');
+  document.getElementById('s'+prev).classList.add('exit');
+  setTimeout(()=>document.getElementById('s'+prev).classList.remove('exit'),700);
+  current=n;
+  document.getElementById('s'+n).classList.add('active');
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===n));
+  document.getElementById('pbar').style.width=((n/(total-1))*100)+'%';
+  if(n===1)document.getElementById('music').play().catch(()=>{});
 }
 
 function cutCake(){
-    document.getElementById("cake").innerHTML = "🍰";
-    document.getElementById("cakeMsg").innerHTML =
-    "🎉 Cake Cut Successfully 🎉<br>❤️ Happy Birthday My Dear Thangachi ❤️";
+  document.getElementById('cake').textContent='🍰';
+  document.getElementById('cakeMsg').textContent='🎉 Cake Cut! Happy Birthday Thangachi ❤️';
+  spawnFW();
+}
+
+function spawnFW(){
+  ['🎆','🎇','✨'].forEach((e,i)=>{
+    setTimeout(()=>{
+      const f=document.createElement('div');
+      f.style.cssText=`position:fixed;font-size:40px;pointer-events:none;z-index:200;left:${10+Math.random()*80}vw;top:${10+Math.random()*60}vh;animation:boom 1.5s forwards`;
+      f.textContent=e;
+      document.body.appendChild(f);
+      setTimeout(()=>f.remove(),1500);
+    },i*400);
+  });
+}
+
+const st=document.createElement('style');
+st.textContent='@keyframes boom{0%{transform:scale(0);opacity:1}100%{transform:scale(2.5);opacity:0}}';
+document.head.appendChild(st);
+
+for(let i=0;i<10;i++){
+  const p=document.createElement('div');p.className='fp';
+  const s=15+Math.random()*40;
+  p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;background:radial-gradient(circle,rgba(245,200,66,0.2),transparent 70%);animation-duration:${14+Math.random()*8}s;animation-delay:-${Math.random()*14}s`;
+  document.body.appendChild(p);
 }
 </script>
-
 </body>
 </html>

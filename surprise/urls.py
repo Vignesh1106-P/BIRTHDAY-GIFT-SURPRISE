@@ -8,6 +8,7 @@ urlpatterns = [
     path('game/', views.game),
     path('countdown/', views.countdown),
     path('letter/', views.letter),
+    path('slideshow/', views.slideshow),
     path('logout/', views.logout_page),
     path('loading/', views.loading),
 ]

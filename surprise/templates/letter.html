@@ -1,91 +1,99 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html>
+<html lang="ta">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secret Letter</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lora:ital,wght@0,400;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0008;--gold:#f5c842;--cream:#fff8f0;
+  --text-dim:rgba(255,248,240,0.55);--paper:#1c0a10;
+}
 body{
-    margin:0;
-    min-height:100vh;
-    background:linear-gradient(#ffb6d9,#ffe6f2);
-    text-align:center;
-    font-family:Arial;
-    overflow-x:hidden;
+  min-height:100vh;background:var(--bg);
+  color:var(--cream);font-family:'Inter',sans-serif;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:flex-start;padding:80px 20px 60px;
 }
 
-h1{
-    color:#8b0055;
-    margin-top:40px;
+.page-title{
+  font-family:'Playfair Display',serif;font-size:28px;
+  color:var(--cream);margin-bottom:6px;text-align:center;
+}
+.page-sub{font-size:13px;color:var(--text-dim);text-align:center;letter-spacing:0.8px;margin-bottom:48px}
+
+.envelope-wrap{
+  cursor:pointer;text-align:center;
+  transition:transform 0.3s;
+  animation:envbounce 2s ease-in-out infinite;
+}
+.envelope-wrap:hover{transform:scale(1.06)}
+@keyframes envbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.env-icon{font-size:90px;display:block;margin-bottom:12px}
+.env-hint{font-size:13px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase}
+
+.letter-container{
+  display:none;
+  width:min(700px,92vw);
+  background:var(--paper);
+  border:1px solid rgba(245,200,66,0.18);
+  border-radius:20px;
+  padding:clamp(24px,5vw,52px) clamp(20px,5vw,48px);
+  box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(245,200,66,0.06);
+  animation:paperIn 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.letter-container.show{display:block;}
+@keyframes paperIn{from{opacity:0;transform:translateY(20px) scale(0.97)}to{opacity:1;transform:none}}
+
+.letter-text{
+  font-family:'Lora',serif;font-size:clamp(14px,1.6vw,16px);
+  color:rgba(255,248,240,0.88);line-height:2;
+  white-space:pre-wrap;min-height:40px;
 }
 
-.envelope{
-    font-size:120px;
-    cursor:pointer;
-    margin-top:80px;
-    animation:bounce 1.5s infinite;
+.back-row{
+  margin-top:40px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;
 }
+.btn{
+  padding:12px 26px;border-radius:50px;border:none;
+  font-family:'Playfair Display',serif;font-size:14px;cursor:pointer;transition:all 0.25s;
+}
+.btn-primary{background:linear-gradient(135deg,#f5c842,#e8a800);color:#1a0012;font-weight:700}
+.btn-primary:hover{box-shadow:0 8px 24px rgba(245,200,66,0.4)}
+.btn-ghost{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--cream)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
 
-@keyframes bounce{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-15px);}
-    100%{transform:translateY(0);}
-}
-
-.letter-box{
-    display:none;
-    width:70%;
-    max-width:700px;
-    margin:30px auto;
-    background:white;
-    padding:30px;
-    border-radius:25px;
-    box-shadow:0 0 30px hotpink;
-    font-size:22px;
-    color:#8b0055;
-    font-weight:bold;
-    line-height:1.8;
-    text-align:left;
-    white-space:pre-wrap;
-}
-
-.back-btn{
-    padding:14px 30px;
-    font-size:18px;
-    background:hotpink;
-    color:white;
-    border:none;
-    border-radius:30px;
-    cursor:pointer;
-}
+.fp{position:fixed;border-radius:50%;pointer-events:none;z-index:0;animation:fprise linear infinite}
+@keyframes fprise{0%{transform:translateY(100vh);opacity:0}10%{opacity:0.5}90%{opacity:0.2}100%{transform:translateY(-10vh);opacity:0}}
 </style>
 </head>
-
 <body>
 
-<h1>💌 Secret Letter For You 💌</h1>
+<h1 class="page-title">💌 Secret Letter</h1>
+<p class="page-sub">A message written from the heart</p>
 
-<h2>Click the envelope 👇</h2>
-
-<div class="envelope" onclick="openLetter()">✉️</div>
-
-<div id="letterBox" class="letter-box">
-    <div id="letterText"></div>
+<div class="envelope-wrap" id="envWrap" onclick="openLetter()">
+  <span class="env-icon">✉️</span>
+  <p class="env-hint">Click to open</p>
 </div>
 
-<audio id="letterMusic" loop>
-    <source src="{% static 'music/letter_song.mp3' %}" type="audio/mpeg">
+<div class="letter-container" id="letterBox">
+  <p class="letter-text" id="letterText"></p>
+  <div class="back-row">
+    <a href="/"><button class="btn btn-primary">🏠 Back to Home</button></a>
+  </div>
+</div>
+
+<audio id="music" loop>
+  <source src="{% static 'music/letter_song.mp3' %}" type="audio/mpeg">
 </audio>
 
-<a href="/">
-    <button class="back-btn">🏠 Back to Home</button>
-</a>
-
 <script>
-let i = 0;
-
-let letter = `🎂 En Uyir Thangachiku... HBD d Chellam! 💖
+let i=0;
+const letter=`🎂 En Uyir Thangachiku... HBD d Chellam! 💖
 
 Dei Paapa,
 
@@ -110,22 +118,28 @@ Ipadiku,
 ❤️ Ratham kalakkaatiyum, unnai uyiraga paarkum un Anbu Annan ❤️`;
 
 function openLetter(){
-    document.getElementById("letterMusic").play();
-    document.querySelector(".envelope").innerHTML = "📜";
-    document.querySelector(".envelope").style.animation = "none";
-    document.getElementById("letterBox").style.display = "block";
-    typeLetter();
+  document.getElementById('music').play().catch(()=>{});
+  const w=document.getElementById('envWrap');
+  w.style.display='none';
+  document.getElementById('letterBox').classList.add('show');
+  typeIt();
 }
 
-function typeLetter(){
-    if(i < letter.length){
-        document.getElementById("letterText").innerHTML +=
-        letter.charAt(i) === "\n" ? "<br>" : letter.charAt(i);
-        i++;
-        setTimeout(typeLetter, 45);
-    }
+function typeIt(){
+  if(i<letter.length){
+    const c=letter[i];
+    document.getElementById('letterText').innerHTML+=c==='\n'?'<br>':c;
+    i++;
+    setTimeout(typeIt,40);
+  }
+}
+
+for(let j=0;j<10;j++){
+  const p=document.createElement('div');p.className='fp';
+  const s=15+Math.random()*35;
+  p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;background:radial-gradient(circle,rgba(245,200,66,0.2),transparent 70%);animation-duration:${12+Math.random()*8}s;animation-delay:-${Math.random()*12}s`;
+  document.body.appendChild(p);
 }
 </script>
-
 </body>
 </html>

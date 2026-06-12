@@ -1,186 +1,189 @@
 {% load static %}
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Memory Flip Book</title>
-
-<script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.min.js"></script>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Book</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0008;--gold:#f5c842;--cream:#fff8f0;--text-dim:rgba(255,248,240,0.55);
+}
 body{
-    margin:0;
-    height:100vh;
-    background:#ffe6f2;
-    font-family:Arial, sans-serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    overflow:hidden;
+  min-height:100vh;background:var(--bg);color:var(--cream);
+  font-family:'Inter',sans-serif;
+  margin:0;padding:0;overflow-y:auto;
+}
+.zoom-wrap{
+  width:200%;
+  transform:scale(0.5);
+  transform-origin:top left;
+  display:flex;flex-direction:column;align-items:center;
+  padding:40px 20px;
+  min-height:200vh;
+}
+.title{
+  font-family:'Playfair Display',serif;font-size:24px;
+  color:var(--cream);margin-bottom:4px;text-align:center;
+}
+.sub{font-size:13px;color:var(--text-dim);text-align:center;margin-bottom:32px;}
+
+/* Single image display */
+.img-wrap{
+  width:100%;max-width:800px;
+  border:1px solid rgba(245,200,66,.18);
+  border-radius:20px;overflow:hidden;
+  background:rgba(255,255,255,.03);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;
+}
+.img-wrap img{
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:20px;
 }
 
-h1{
-    color:#8b0055;
-    font-size:38px;
-    margin-bottom:10px;
-}
+.counter{text-align:center;font-size:13px;color:rgba(255,248,240,.5);margin-bottom:16px;letter-spacing:1px;}
+.dots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;max-width:800px;}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .3s;flex-shrink:0;}
+.dot.active{background:#f5c842;transform:scale(1.4);}
 
-.subtitle{
-    color:#8b0055;
-    font-size:18px;
-    margin-bottom:20px;
-}
-
-#book{
-    box-shadow:0 8px 25px rgba(0,0,0,0.2);
-}
-
-.page{
-    background:white;
-    border:1px solid #ddd;
-    overflow:hidden;
-}
-
-.page img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.cover{
-    background:#ff69b4;
-    color:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    font-size:28px;
-    font-weight:bold;
-    padding:20px;
-    box-sizing:border-box;
-}
-
-.controls{
-    margin-top:18px;
-}
-
-button{
-    padding:10px 22px;
-    font-size:16px;
-    background:#ff69b4;
-    color:white;
-    border:none;
-    border-radius:20px;
-    cursor:pointer;
-    margin:5px;
-}
-
-button:hover{
-    background:#ff1493;
-}
-
+.nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;}
+.btn{padding:11px 22px;border-radius:50px;border:none;font-family:'Playfair Display',serif;font-size:13px;cursor:pointer;transition:all .25s;}
+.primary{background:linear-gradient(135deg,#f5c842,#e8a800);color:#1a0012;font-weight:700;}
+.primary:hover{box-shadow:0 6px 20px rgba(245,200,66,.35)}
+.ghost{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:#fff8f0;}
+.ghost:hover{border-color:#f5c842;color:#f5c842}
 </style>
 </head>
-
 <body>
+<audio id="bgMusic" loop>
+  <source src="{% static 'music/Paapa_Paattu.mp3' %}" type="audio/mpeg">
+</audio>
+<div class="zoom-wrap">
 
-    <div class="ribbon r1">🎀</div>
-    <div class="ribbon r2">✨</div>
-    <div class="ribbon r3">🌸</div>
-    <div class="ribbon r4">💖</div>
+<h3 class="title">📖 Our Memories</h3>
+<p class="sub">A special collection for Thangachi</p>
 
-<h1>📖 Our Memory Book 📖</h1>
-<p class="subtitle">A little album filled with love, smiles and memories ❤️</p>
-<p class="subtitle">Simple memories, forever special ❤️</p>
-<div class="book-wrap">
-<div id="book">
-
-    <div class="page cover">
-        💖 Our Beautiful Memories 💖
-    </div>
-
-    <div class="page">
-        <img src="{% static 'images/sister1.jpeg' %}">
-    </div>
-
-    <div class="page">
-        <img src="{% static 'images/sister2.jpeg' %}">
-    </div>
-
-    <div class="page">
-        <img src="{% static 'images/sister3.jpeg' %}">
-    </div>
-
-    <div class="page">
-        <img src="{% static 'images/sister4.jpeg' %}">
-    </div>
-
-    <div class="page">
-        <img src="{% static 'images/sister5.jpeg' %}">
-    </div>
-
-    <div class="page">
-        <img src="{% static 'images/sister6.jpeg' %}">
-    </div>
-
-    <div class="page cover final-cover">
-        🎂 Happy Birthday Thangachi ❤️
-    </div>
-
-</div>
+<div class="img-wrap">
+  <img id="mainImg" src="{% static 'images/sister (1).jpeg' %}" alt="Memory">
 </div>
 
-<div class="controls">
-    <button onclick="prevPage()">⬅ Previous</button>
-    <button onclick="nextPage()">Next ➡</button>
-    <a href="/"><button>🏠 Home</button></a>
+<p class="counter" id="counter">1 / 56</p>
+<div class="dots" id="dots"></div>
+
+<div class="nav">
+  <button class="btn ghost" id="prev">← Previous</button>
+  <a href="/"><button class="btn primary">🏠 Home</button></a>
+  <button class="btn ghost" id="next">Next →</button>
+</div>
+
 </div>
 
 <script>
-const pageFlip = new St.PageFlip(
-    document.getElementById("book"),
-    {
-        width: 360,
-        height: 500,
-        size: "fixed",
-        showCover: true,
-        maxShadowOpacity: 0.5,
-        mobileScrollSupport: false
-    }
-);
+const images = [
+  "{% static 'images/sister (1).jpeg' %}",
+  "{% static 'images/sister (2).jpeg' %}",
+  "{% static 'images/sister (3).jpeg' %}",
+  "{% static 'images/sister (4).jpeg' %}",
+  "{% static 'images/sister (5).jpeg' %}",
+  "{% static 'images/sister (6).jpeg' %}",
+  "{% static 'images/sister (7).jpeg' %}",
+  "{% static 'images/sister (8).jpeg' %}",
+  "{% static 'images/sister (9).jpeg' %}",
+  "{% static 'images/sister (10).jpeg' %}",
+  "{% static 'images/sister (11).jpeg' %}",
+  "{% static 'images/sister (12).jpeg' %}",
+  "{% static 'images/sister (13).jpeg' %}",
+  "{% static 'images/sister (14).jpeg' %}",
+  "{% static 'images/sister (15).jpeg' %}",
+  "{% static 'images/sister (16).jpeg' %}",
+  "{% static 'images/sister (17).jpeg' %}",
+  "{% static 'images/sister (18).jpeg' %}",
+  "{% static 'images/sister (19).jpeg' %}",
+  "{% static 'images/sister (20).jpeg' %}",
+  "{% static 'images/sister (21).jpeg' %}",
+  "{% static 'images/sister (22).jpeg' %}",
+  "{% static 'images/sister (23).jpeg' %}",
+  "{% static 'images/sister (24).jpeg' %}",
+  "{% static 'images/sister (25).jpeg' %}",
+  "{% static 'images/sister (26).jpeg' %}",
+  "{% static 'images/sister (27).jpeg' %}",
+  "{% static 'images/sister (28).jpeg' %}",
+  "{% static 'images/sister (29).jpeg' %}",
+  "{% static 'images/sister (30).jpeg' %}",
+  "{% static 'images/sister (31).jpeg' %}",
+  "{% static 'images/sister (32).jpeg' %}",
+  "{% static 'images/sister (33).jpeg' %}",
+  "{% static 'images/sister (34).jpeg' %}",
+  "{% static 'images/sister (35).jpeg' %}",
+  "{% static 'images/sister (36).jpeg' %}",
+  "{% static 'images/sister (37).jpeg' %}",
+  "{% static 'images/sister (38).jpeg' %}",
+  "{% static 'images/sister (39).jpeg' %}",
+  "{% static 'images/sister (40).jpeg' %}",
+  "{% static 'images/sister (41).jpeg' %}",
+  "{% static 'images/sister (42).jpeg' %}",
+  "{% static 'images/sister (43).jpeg' %}",
+  "{% static 'images/sister (44).jpeg' %}",
+  "{% static 'images/sister (45).jpeg' %}",
+  "{% static 'images/sister (48).jpeg' %}",
+  "{% static 'images/sister (54).jpeg' %}",
+  "{% static 'images/sister (55).jpeg' %}",
+  "{% static 'images/sister (56).jpeg' %}",
+  "{% static 'images/sister (57).jpeg' %}",
+  "{% static 'images/sister (58).jpeg' %}",
+  "{% static 'images/sister (59).jpeg' %}",
+  "{% static 'images/sister (60).jpeg' %}",
+  "{% static 'images/sister (61).jpeg' %}",
+  "{% static 'images/sister (62).jpeg' %}",
+  "{% static 'images/sister (63).jpeg' %}"
+];
 
-pageFlip.loadFromHTML(document.querySelectorAll(".page"));
+let current = 0;
+const total = images.length;
+const dotsEl = document.getElementById('dots');
+const imgEl = document.getElementById('mainImg');
 
-function playFlip(){
-    let sound = document.getElementById("flipSound");
-    sound.currentTime = 0;
-    sound.play();
+// Build dots
+for(let i=0;i<total;i++){
+  const dot=document.createElement('div');
+  dot.className='dot'+(i===0?' active':'');
+  dot.onclick=()=>goTo(i);
+  dotsEl.appendChild(dot);
 }
 
-function nextPage(){
-    playFlip();
-    pageFlip.flipNext();
+function goTo(n){
+  current = n;
+  // Fade out → swap → fade in
+  imgEl.style.opacity = '0';
+  imgEl.style.transition = 'opacity 0.4s ease';
+  setTimeout(()=>{
+    imgEl.src = images[current];
+    imgEl.style.opacity = '1';
+  }, 400);
+  document.getElementById('counter').textContent = (current+1)+' / '+total;
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===current));
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
-function prevPage(){
-    playFlip();
-    pageFlip.flipPrev();
-}
+document.getElementById('prev').onclick=()=>{if(current>0)goTo(current-1);};
+document.getElementById('next').onclick=()=>{if(current<total-1)goTo(current+1);};
 
-window.onload = function(){
-    document.getElementById("openSound").play().catch(()=>{});
-}
+// Autoplay music
+const music = document.getElementById('bgMusic');
+document.addEventListener('click', () => {
+  if(music.paused) music.play();
+}, { once: true });
+music.play().catch(() => {});
 
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='ArrowRight' && current<total-1) goTo(current+1);
+  if(e.key==='ArrowLeft' && current>0) goTo(current-1);
+});
 </script>
-
-<audio id="flipSound">
-    <source src="{% static 'music/page_flip.mp3' %}" type="audio/mpeg">
-</audio>
-
-<audio id="openSound">
-    <source src="{% static 'music/book_open.mp3' %}" type="audio/mpeg">
-</audio>
-
 </body>
 </html>
