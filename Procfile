@@ -1,1 +1,1 @@
-web: gunicorn birthday.wsgi --log-file -
+web: python manage.py collectstatic --noinput && gunicorn birthday.wsgi --bind 0.0.0.0:$PORT --log-file -
