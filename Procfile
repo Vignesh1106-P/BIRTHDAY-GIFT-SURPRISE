@@ -1,0 +1,1 @@
+web: gunicorn BirthdayGift.wsgi --log-file -
